@@ -97,7 +97,7 @@ menuentry 'Windows 10'{
 	insmod fat
 	insmod search_fs-uuid
 	insmod chain
-	#MicrosoftHints	
+	search --fs-uuid --set=root --hint-bios=hd0,gpt2 --hint-efi=hd0,gpt2 --hint-baremetal=ahci0,gpt2  DADF-1C26	
 	chainloader /EFI/Microsoft/Boot/bootMicrosoft.efi
 	
 }

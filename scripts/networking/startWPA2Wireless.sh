@@ -16,6 +16,8 @@ killall wpa_supplicant
 
 ssid="The Clubhouse WiFi"
 psk="chwifi2015"
+#ssid="Android"
+#psk="androidp"
 echo "Using ssid: '$ssid'"
 echo "Using psk: '$psk'"
 echo ""
