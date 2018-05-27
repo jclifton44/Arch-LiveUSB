@@ -1,97 +1,13 @@
+ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
+hwclock --systohc
+#   Uncomment en_US.UTF-8 UTF-8 and other needed localizations in
+#   /etc/locale.gen, and generate them with:
+locale-gen
 
-   Use timedatectl(1) to ensure the system clock is accurate:
-# timedatectl set-ntp true
+#Set the LANG variable in locale.conf(5) accordingly, for example:
+#/etc/locale.conf
+#LANG=en_US.UTF-8
 
-
-# fdisk -l
-
-#/dev/sda2 EFI
-#/dev/sda6 root partition 
-#/dev/sda7 swap partition
-
-
-   Once the partitions have been created, each must be formatted with an
-   appropriate file system. For example, to format the root partition on
-   /dev/sda1 with ext4, run:
-# mkfs.ext4 /dev/sda6
-
-  Mount the file systems
-   Mount the file system on the root partition to /mnt, for example:
-# mount /dev/sda6  /mnt
-
-   Create mount points for any remaining partitions and mount them
-   accordingly, for example:
-# mkdir /mnt/boot
-# mount /dev/sda2 /mnt/boot
-
-   Use the pacstrap script to install the base package group:
-# pacstrap /mnt base
-
-   This group does not include all tools from the live installation, such
-   as btrfs-progs or specific wireless firmware; see packages.both for
-   comparison.
-
-   To install packages and other groups such as base-devel, append the
-   names to pacstrap (space separated) or to individual pacman commands
-   after the #Chroot step.
-
-Configure the system
-
-# genfstab -U /mnt >> /mnt/etc/fstab
-
-# arch-chroot /mnt
-
-# ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
-
-   Run hwclock(8) to generate /etc/adjtime:
-# hwclock --systohc
-   Uncomment en_US.UTF-8 UTF-8 and other needed localizations in
-   /etc/locale.gen, and generate them with:
-# locale-gen
-
-   Set the LANG variable in locale.conf(5) accordingly, for example:
-/etc/locale.conf
-LANG=en_US.UTF-8
-
-/etc/hostname
-myhostname
-
-   For Wireless configuration, install the iw and wpa_supplicant packages,
-   as well as needed firmware packages. Optionally install dialog for
-   usage of wifi-menu.
-
-   recreate the initramfs image:
-# mkinitcpio -p linux
-
-
-   Set the root password:
-# passwd
-
-  Boot loader
-
-   See Category:Boot loaders for available choices and configurations.
-
-   If you have an Intel CPU, install the intel-ucode package in addition,
-   and enable microcode updates.
-
-Reboot
-
-   Exit the chroot environment by typing exit or pressing Ctrl+D.
-
-   Optionally manually unmount all the partitions with umount -R /mnt:
-   this allows noticing any "busy" partitions, and finding the cause with
-   fuser(1).
-
-   Finally, restart the machine by typing reboot: any partitions still
-   mounted will be automatically unmounted by systemd. Remember to remove
-   the installation media and then login into the new system with the root
-   account.
-
-Post-installation
-
-   See General recommendations for system management directions and
-   post-installation tutorials (like setting up a graphical user
-   interface, sound or a touchpad).
-
-   For a list of applications that may be of interest, see List of
-   applications.
+#/etc/hostname
+#myhostname
+mkinitcpio -p linux

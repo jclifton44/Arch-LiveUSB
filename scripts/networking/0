@@ -95,7 +95,7 @@ fi
 menuentry 'Windows 10'{
 	insmod part_gpt
 	insmod fat
-	insmod search_fs_uuid
+	insmod search_fs-uuid
 	insmod chain
 	#MicrosoftHints	
 	chainloader /EFI/Microsoft/Boot/bootMicrosoft.efi
@@ -104,9 +104,7 @@ menuentry 'Windows 10'{
 menuentry 'Arch Linux' {
 	set root=(hd0,gpt2)
 	echo 'Loading Linux...'
-	#LinuxRootPartition
-	#example
-	#linux /vmlinuz-linux root=/dev/sda4
+	linux /vmlinuz-linux root=/dev/sda4
 	echo 'Loading initial memory into ram'
 	initrd /initramfs-linux.img
 }
