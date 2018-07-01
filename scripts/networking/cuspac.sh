@@ -1,42 +1,10 @@
-# timedatectl set-ntp true
-# fdisk -l
-#/dev/sda2 EFI
-#/dev/sda6 root partition 
-#/dev/sda5 swap partition
-rootNumber='6'
-efiPart='/dev/sda2'
-rootPart=$(echo "/dev/sda$rootNumber")
-swapPart='/dev/sda5'
-echo "Installing with following partition scheme:"
-echo "EFI Partition -> $efiPart"
-echo "swap Partition -> $swapPart"
-echo "root Partition -> $rootPart"
-sleep 6
-echo ""
-echo "Installing Arch Linux"
-echo "---------------------"
-echo 
-sleep 3
-mkfs.ext4 $rootPart
-
-#mkfs.fat -F32 /dev/sda2
-mkdir /iomnt
-mount $rootPart  /iomnt
-mkdir /iomnt/boot
-mount $efiPart /iomnt/boot
-rm -rf /iomnt/boot/vmlinuz-linux
-rm -rf /iomnt/boot/initramfs-linux.img
 cd /mnt/scripts/networking
 ./startWPA2Wireless.sh
 dhcpcd
-sleep 10
+sleep 1
 cd /mnt
-sed "/^##.*/d" /mnt/sslMirrorList  > /mnt/onlyMirrors
-sed "/^\s*$/d" /mnt/onlyMirrors > /mnt/mirrors
-echo "#RandomMirror" >> /mnt/mirrors
-randServer=$(/mnt/scripts/getRandomMirror.sh)
-sed "s@#RandomMirror@Server = $randServer@" /mnt/mirrors > /etc/pacman.d/mirrorList
-#sed "s/#Server/Server/" sslMirrorList > /etc/pacman.d/mirrorList
+sed "s/#RandomMirror/Server = $(./scripts/getRandomMirror.sh)/" /mnt/sslMirrorList> /etc/pacman.d/commentedMirrorList
+sed "s/#Server/Server/" sslMirrorList > /etc/pacman.d/mirrorList
 #cp sslMirrorList /etc/pacman.d/mirrorlist
 cp pacman.conf /etc/pacman.conf
 find / -name asdf
