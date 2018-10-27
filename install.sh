@@ -3,10 +3,10 @@
 #/dev/sda2 EFI
 #/dev/sda6 root partition 
 #/dev/sda5 swap partition
-rootNumber='6'
-efiPart='/dev/sda2'
+rootNumber='5'
+efiPart='/dev/sda1'
 rootPart=$(echo "/dev/sda$rootNumber")
-swapPart='/dev/sda5'
+swapPart='/dev/sda6'
 echo "Installing with following partition scheme:"
 echo "EFI Partition -> $efiPart"
 echo "swap Partition -> $swapPart"
@@ -51,7 +51,7 @@ touch /iomnt/etc/fstab
 genfstab -U /iomnt >> /iomnt/etc/fstab
 cp preinstall.sh /iomnt/preinstall.sh
 arch-chroot /iomnt ./preinstall.sh
-mount /dev/sda2 /boot
+mount $efiPart /boot
 
 
 #bootloader
@@ -81,7 +81,7 @@ cp /boot/EFI/EFI/arch/grubx64.efi /boot/EFI/Microsoft/Boot/bootmgfw.efi
 umount /dev/sdb2
 stringHints=$(grub-probe --target=hints_string /boot/EFI/Microsoft/Boot/bootMicrosoft.efi)
 fsUUID=$(grub-probe --target=fs_uuid /boot/EFI/Microsoft/Boot/bootMicrosoft.efi)
-sed "s/#MicrosoftHints/search --fs-uuid --set=root $stringHints $fsUUID/" grub.cfg > /boot/grub/linux.grub.cfg
+sed "s|#MicrosoftHints|search --fs-uuid --set=root $stringHints $fsUUID|" grub.cfg > /boot/grub/linux.grub.cfg
 sed "s/#LinuxRootPartition/linux \/vmlinuz-linux root=\/dev\/sda$rootNumber/" /boot/grub/linux.grub.cfg > /boot/grub/grub.cfg
 rm -rf /boot/grub/linux.grub.cfg
 #linux /vmlinuz-linux root=/dev/sda4
