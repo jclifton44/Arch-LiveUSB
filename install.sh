@@ -24,6 +24,8 @@ mkdir /iomnt
 mount $rootPart  /iomnt
 mkdir /iomnt/boot
 mount $efiPart /iomnt/boot
+rm -rf /iomnt/boot/amd-ucode.img
+rm -rf /iomnt/boot/intel-ucode.img
 rm -rf /iomnt/boot/vmlinuz-linux
 rm -rf /iomnt/boot/initramfs-linux.img
 cd /mnt/scripts/networking
