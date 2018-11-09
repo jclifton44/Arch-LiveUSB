@@ -45,6 +45,7 @@ find / -name asdf
 pacman-key --init
 pacman-key --populate archlinux
 /mnt/scripts/networking/tableOff.sh
+/mnt/scripts/networking/linkup.sh
 /mnt/scripts/pac.sh iw dialog efibootmgr grub
 /mnt/scripts/networking/tableOn.sh
 /mnt/scripts/networking/linkdown.sh

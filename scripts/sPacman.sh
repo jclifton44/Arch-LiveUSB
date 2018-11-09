@@ -14,6 +14,7 @@ find / -name $RANDOM
 pacman-key --init
 pacman-key --populate archlinux
 networking/tableOff.sh
+networking/linkup.sh
 pacman -Sy ${@:1}
 networking/tableOn.sh
 networking/linkdown.sh
