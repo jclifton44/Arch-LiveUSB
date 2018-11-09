@@ -7,16 +7,19 @@ mkdir ~/liveInstall
 cp -r /usr/share/archiso/configs/releng/*  ~/liveInstall
 mkdir ~/liveInstall/installScripts
 cp -r ../* ~/liveInstall/installScripts
-cd ~/liveInstall
+#cd ~/liveInstall
 cd networking
 ./startWPA2Wireless.sh
-cd ../
+#cd ../
 dhcpcd
 sleep 3
 echo "ip lease"
-networking/linkup.sh
+savedDirectory=$(pwd)
 networking/tableOff.sh
-./build.sh -v
-networking/linkdown.sh
+networking/linkup.sh
+cd ~/liveInstall
+build.sh -v
+cd $savedDirectory
 networking/tableOn.sh
+networking/linkdown.sh
 
