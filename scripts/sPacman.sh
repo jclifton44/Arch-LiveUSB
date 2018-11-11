@@ -1,6 +1,8 @@
 echo "Securely installing ${@:1}"
 cd networking
 ./startWPA2Wireless.sh
+dhcpcd
+sleep 3
 cd ../
 sed "/^##.*/d" ../sslMirrorList  > ../onlyMirrors
 sed "/^\s*$/d" ../onlyMirrors > ../mirrors
