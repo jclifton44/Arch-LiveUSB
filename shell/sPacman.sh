@@ -1,25 +1,23 @@
 echo "Securely installing ${@:1}"
-cd networking
-./startWPA2Wireless.sh
+startWPA2Wireless
 dhcpcd
 sleep 3
-cd ../
-sed "/^##.*/d" ../sslMirrorList  > ../onlyMirrors
-sed "/^\s*$/d" ../onlyMirrors > ../mirrors
-echo "#RandomMirror" >> ../mirrors
-randServer=$(sh getRandomMirror.sh)
-sed "s@#RandomMirror@Server = $randServer@" ../mirrors > /etc/pacman.d/mirrorList
+sed "/^##.*/d" /etc/conf/sslMirrorList  > /etc/conf/onlyMirrors
+sed "/^\s*$/d" /etc/conf/onlyMirrors > /etc/conf/mirrors
+echo "#RandomMirror" >> /etc/conf/mirrors
+randServer=$(getRandomMirror)
+sed "s@#RandomMirror@Server = $randServer@" /etc/conf/mirrors > /etc/pacman.d/mirrorList
 #sed "s/#Server/Server/" sslMirrorList > /etc/pacman.d/mirrorList
 #cp sslMirrorList /etc/pacman.d/mirrorlist
-cp ../pacman.conf /etc/pacman.conf
+cp /etc/conf/pacman.conf /etc/pacman.conf
 find / -name $RANDOM
 pacman-key --init
 pacman-key --populate archlinux
-networking/tableOff.sh
-networking/linkup.sh
+tableOff
+linkup
 pacman -Sy ${@:1}
-networking/tableOn.sh
-networking/linkdown.sh
+tableOn
+linkdown
 
 
 

@@ -32,26 +32,26 @@ startWPA2Wireless
 dhcpcd
 sleep 10
 cd /mnt
-sed "/^##.*/d" /mnt/sslMirrorList  > /mnt/onlyMirrors
-sed "/^\s*$/d" /mnt/onlyMirrors > /mnt/mirrors
-echo "#RandomMirror" >> /mnt/mirrors
-randServer=$(getRandomMirror.sh)
-sed "s@#RandomMirror@Server = $randServer@" /mnt/mirrors > /etc/pacman.d/mirrorList
+sed "/^##.*/d" /etc/shell/sslMirrorList  > /etc/shell/onlyMirrors
+sed "/^\s*$/d" /etc/shell/onlyMirrors > /etc/shell/mirrors
+echo "#RandomMirror" >> /etc/shell/mirrors
+randServer=$(getRandomMirror)
+sed "s@#RandomMirror@Server = $randServer@" /etc/shell/mirrors > /etc/pacman.d/mirrorList
 #sed "s/#Server/Server/" sslMirrorList > /etc/pacman.d/mirrorList
 #cp sslMirrorList /etc/pacman.d/mirrorlist
-cp pacman.conf /etc/pacman.conf
+cp /etch/shell/pacman.conf /etc/pacman.conf
 find / -name asdf
 pacman-key --init
 pacman-key --populate archlinux
-/mnt/scripts/networking/tableOff.sh
-/mnt/scripts/networking/linkup.sh
-/mnt/scripts/pac.sh iw dialog efibootmgr grub
-/mnt/scripts/networking/tableOn.sh
-/mnt/scripts/networking/linkdown.sh
+tableOff
+linkup
+pac iw dialog efibootmgr grub
+tableOn
+linkdown
 mkdir /iomnt/etc
 touch /iomnt/etc/fstab
 genfstab -U /iomnt >> /iomnt/etc/fstab
-cp preinstall.sh /iomnt/preinstall.sh
+cp /etc/conf/preinstall.sh /iomnt/preinstall.sh
 arch-chroot /iomnt ./preinstall.sh
 mount $efiPart /boot
 
@@ -83,7 +83,7 @@ cp /boot/EFI/EFI/arch/grubx64.efi /boot/EFI/Microsoft/Boot/bootmgfw.efi
 umount /dev/sdb2
 stringHints=$(grub-probe --target=hints_string /boot/EFI/Microsoft/Boot/bootMicrosoft.efi)
 fsUUID=$(grub-probe --target=fs_uuid /boot/EFI/Microsoft/Boot/bootMicrosoft.efi)
-sed "s|#MicrosoftHints|search --fs-uuid --set=root $stringHints $fsUUID|" grub.cfg > /boot/grub/linux.grub.cfg
+sed "s|#MicrosoftHints|search --fs-uuid --set=root $stringHints $fsUUID|" /etc/conf/grub.cfg > /boot/grub/linux.grub.cfg
 sed "s/#LinuxRootPartition/linux \/vmlinuz-linux root=\/dev\/sda$rootNumber/" /boot/grub/linux.grub.cfg > /boot/grub/grub.cfg
 rm -rf /boot/grub/linux.grub.cfg
 #linux /vmlinuz-linux root=/dev/sda4

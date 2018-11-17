@@ -2,19 +2,19 @@ directory=$(pwd)
 
 sleep 10
 cd $directory
-wget -O /mnt/sslMirrorList https://www.archlinux.org/mirrorlist/all/https/
-if [ $(wc -l /mnt/sslMirrorList | awk '{print $1}') == "0" ] 
+wget -O /etc/conf/sslMirrorList https://www.archlinux.org/mirrorlist/all/https/
+if [ $(wc -l /etc/conf/sslMirrorList | awk '{print $1}') == "0" ] 
 then
-	cp /mnt/sslMirrorListBackup /mnt/sslMirrorList
+	cp /etc/conf/sslMirrorListBackup /etc/conf/sslMirrorList
 fi
 rm -rf mirrorsList
 touch mirrorsList
-echo "Server = $(/mnt/scripts/getRandomMirror.sh)" > mirrorsList
+echo "Server = $(getRandomMirror)" > /etc/conf/mirrorsList
 
-cat /mnt/sslMirrorList | grep "Server" > mirrors
-sed "s/#Server/Server/" mirrors >> mirrorsList
-cp mirrorsList /etc/pacman.d/mirrorlist
-randomMirror=$(/mnt/scripts/getRandomMirror.sh)
+cat /etc/conf/sslMirrorList | grep "Server" > /etc/conf/mirrors
+sed "s/#Server/Server/" /etc/conf/mirrors >> /etc/conf/mirrorsList
+cp /etc/conf/mirrorsList /etc/pacman.d/mirrorlist
+randomMirror=$(getRandomMirror)
 
 echo "Using randomMirror: $randomMirror"
 mirrorBase=$(echo "$randomMirror" | sed "s/\$repo\/os\/\$arch//")
