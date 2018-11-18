@@ -4,7 +4,8 @@
 #/dev/sda6 root partition 
 #/dev/sda5 swap partition
 rootNumber='5'
-efiPart='/dev/sda1'
+efiNumber='1'
+efiPart="/dev/sda$efiNumber"
 rootPart=$(echo "/dev/sda$rootNumber")
 swapPart='/dev/sda6'
 echo "Installing with following partition scheme:"
@@ -84,8 +85,10 @@ umount /dev/sdb2
 stringHints=$(grub-probe --target=hints_string /boot/EFI/Microsoft/Boot/bootMicrosoft.efi)
 fsUUID=$(grub-probe --target=fs_uuid /boot/EFI/Microsoft/Boot/bootMicrosoft.efi)
 sed "s|#MicrosoftHints|search --fs-uuid --set=root $stringHints $fsUUID|" /etc/shell/grub.cfg > /boot/grub/linux.grub.cfg
-sed "s/#LinuxRootPartition/linux \/vmlinuz-linux root=\/dev\/sda$rootNumber/" /boot/grub/linux.grub.cfg > /boot/grub/grub.cfg
+sed "s|#EFIPartition|set root=(hd0,gpt$efiNumber)|" /etc/shell/linux.grub.cfg > /boot/grub/linux.grub.cfg2
+sed "s/#LinuxRootPartition/linux \/vmlinuz-linux root=\/dev\/sda$rootNumber/" /boot/grub/linux.grub.cfg2 > /boot/grub/grub.cfg
 rm -rf /boot/grub/linux.grub.cfg
+rm -rf /boot/grub/linux.grub.cfg2
 #linux /vmlinuz-linux root=/dev/sda4
 umount $efiPart
 umount $rootPart
