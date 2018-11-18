@@ -4,7 +4,7 @@ dhcpcd
 sleep 3
 echo "ip lease"
 tableOff
-linkup.sh
+linkup
 curl -C - -o ver https://mirrors.acm.wpi.edu/archlinux/iso/latest/md5sum.txt
 version=$(cat ver | grep linux-2 | sed -s 's/.*archlinux-//g' | sed -s 's/-.*//g')
 echo "Latest Version: $version"

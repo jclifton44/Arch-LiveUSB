@@ -1,6 +1,7 @@
-sPacman.sh make squashfs-tools libisoburn dosfstools patch lynx devtools git
-sGit.sh git://projects.archlinux.org/archiso.git
+sPacman make squashfs-tools libisoburn dosfstools patch lynx devtools git
+sGit git://projects.archlinux.org/archiso.git
 cd archiso
+echo "ARCH ISO ->>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 make install
 cd ../
 rm -rf archiso
@@ -9,6 +10,10 @@ mkdir ~/liveInstall
 cp -r /usr/share/archiso/configs/releng/*  ~/liveInstall
 mkdir ~/liveInstall/airootfs/root/installScripts
 #cp -r ../* ~/liveInstall/airootfs/root/installScripts
+savedDirectory=$(pwd)
+cd ~/liveInstall/airootfs/root/installScripts
+sGit https://github.com/jclifton44/shell-scripts
+cd $savedDirectory
 #copy the specific scripts needed
 #cd ~/liveInstall
 startWPA2Wireless

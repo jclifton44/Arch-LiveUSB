@@ -3,7 +3,7 @@ dhcpcd
 sleep 3
 echo "ip lease"
 tableOff
-networking/linkup
+linkup
 git clone $1
 tableOn
 linkdown
