@@ -55,10 +55,9 @@ genfstab -U /iomnt >> /iomnt/etc/fstab
 cp /etc/shell/preinstall.sh /iomnt/preinstall.sh
 arch-chroot /iomnt ./preinstall.sh
 #bootloader
+umount $rootPart
 configureBoot
 
-umount $rootPart
-umount -al 
 echo 'Reboot to access your new Arch OS installation'
 echo '->reboot
 ->shutdown now'
