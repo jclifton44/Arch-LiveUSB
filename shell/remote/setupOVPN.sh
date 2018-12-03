@@ -3,15 +3,15 @@ apt-get install openvpn easy-rsa
 SAVED_DIRECTORY=$(pwd)
 OVPN_DIRECTORY="$HOME/ca-dir"
 CLIENT_NAME="jcovpn"
-SERVER_NAME="server"
+SERVER_NAME="jeremy-clifton-vps"
 make-cadir $OVPN_DIRECTORY
 sed -i "s/export KEY_COUNTRY.*/export KEY_COUNTRY=\"US\"/" $OVPN_DIRECTORY/vars
 sed -i "s/export KEY_PROVINCE.*/export KEY_PROVINCE=\"CA\"/" $OVPN_DIRECTORY/vars
 sed -i "s/export KEY_CITY.*/export KEY_CITY=\"San Jose\"/" $OVPN_DIRECTORY/vars
 sed -i "s/export KEY_ORG.*/export KEY_ORG=\"jeremy-clifton.com\"/" $OVPN_DIRECTORY/vars
 sed -i "s/export KEY_EMAIL.*/export KEY_EMAIL=\"gservice341@gmail.com\"/" $OVPN_DIRECTORY/vars
-sed -i "s/export KEY_OU.*/export KEY_OU=\"ovpn\"/" $OVPN_DIRECTORY/vars
-sed -i "s/export KEY_NAME.*/export KEY_NAME=\"server\"/" $OVPN_DIRECTORY/vars
+sed -i "s/export KEY_OU.*/export KEY_OU=\"jcovpn\"/" $OVPN_DIRECTORY/vars
+sed -i "s/export KEY_NAME.*/export KEY_NAME=\"$SERVER_NAME\"/" $OVPN_DIRECTORY/vars
 cd $OVPN_DIRECTORY
 source vars
 ./clean-all
@@ -39,14 +39,15 @@ gunzip -c /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz | t
 sed -i "s/;tls-auth ta.key 0.*/tls-auth ta.key 0 #This file is secret/" /etc/openvpn/server.conf
 sed -i '/tls-auth.*/ a key-direction 0' /etc/openvpn/server.conf
 sed -i "s/;cipher AES-128-CBC/cipher AES-128-CBC/" /etc/openvpn/server.conf
-sed -i "s/;auth SHA256/auth SHA256/" /etc/openvpn/server.conf
+sed -i "/cipher AES.*/ a auth SHA256" /etc/openvpn/server.conf
 sed -i "s/;user nobody/user nobody/" /etc/openvpn/server.conf
 sed -i "s/;group nogroup/group nogroup/" /etc/openvpn/server.conf
 sed -i "s/;push \"redirect-gateway def1 bypass-dhcp\"/push \"redirect-gateway def1 bypass-dhcp\"/" /etc/openvpn/server.conf
 sed -i "s/;push \"dhcp-option DNS .*/push \"dhcp-option DNS 1.1.1.1\"/" /etc/openvpn/server.conf
-#sed -i "s/cert server.crt/cert $SERVER_NAME.crt/" /etc/openvpn/server.conf
-#sed -i "s/key server.key/key $SERVER_NAME.key/" /etc/openvpn/server.conf
-#sed -i "s/server 10.8.0.0 255.255.255.0/server 10.7.0.0 255.255.255.0/" /etc/openvpn/server.conf
+sed -i "s/cert server.crt/cert $SERVER_NAME.crt/" /etc/openvpn/server.conf
+sed -i "s/key server.key/key $SERVER_NAME.key/" /etc/openvpn/server.conf
+sed -i "s/server 10.8.0.0 255.255.255.0/server 10.7.0.0 255.255.255.0/" /etc/openvpn/server.conf
+sed -i "s/;topology subnet/topology subnet/" /etc/openvpn/server.conf
 
 sed -i "s/#new.ipv4.ip_forward=1/net.ipv4.ip_forward=1/" /etc/sysctl.conf
 sysctl -p
@@ -77,9 +78,12 @@ cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf $HOME/client-
 sed -i "s/remote my-server-1 1194/remote jeremy-clifton.com 1194/" $HOME/client-configs/base.conf
 sed -i "s/;user nobody/user nobody/" $HOME/client-configs/base.conf
 sed -i "s/;group nogroup/group nogroup/" $HOME/client-configs/base.conf
-sed -i "/key client.key/ a key-direction 1" $HOME/client-configs/base.conf
-sed -i "/key client.key/ a auth SHA256" $HOME/client-configs/base.conf
-sed -i "/key client.key/ a cipher AES-128-CBC" $HOME/client-configs/base.conf
+sed -i "s/ca ca.crt//" $HOME/client-configs/base.conf
+sed -i "s/key client.key//" $HOME/client-configs/base.conf
+sed -i "s/cert client.crt//" $HOME/client-configs/base.conf
+sed -i "/# SSL\/TLS parms./ a key-direction 1" $HOME/client-configs/base.conf
+sed -i "/# SSL\/TLS parms./ a auth SHA256" $HOME/client-configs/base.conf
+sed -i "/# SSL\/TLS parms./ a cipher AES-128-CBC" $HOME/client-configs/base.conf
 makeconfOVPN $CLIENT_NAME
 cp $HOME/client-configs/files/*.ovpn /var/www/html/hosted
 cd $SAVED_DIRECTORY
