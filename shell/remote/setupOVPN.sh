@@ -60,7 +60,7 @@ else
 	echo "Updating /etc/ufw/before.rules for routing"
 	#lineNumber=$(wc -l /etc/ufw/before.rules | gawk '{ print $1}')
 	#sed -i "${lineNumber}i# END OPENVPN RULES" /etc/ufw/before.rules
-	#sed -i "${lineNumber}i-A POSTROUTING -s 10.7.0.0/8 -o $DEFAULT_INTERFACE - MASQUERADE" /etc/ufw/before.rules
+	#sed -i "${lineNumber}i-A POSTROUTING -s 10.7.0.0/8 -o $DEFAULT_INTERFACE -j MASQUERADE" /etc/ufw/before.rules
 	#sed -i "${lineNumber}i# Allow traffic from OpenVPN client to $DEVICE_INTERFACE" /etc/ufw/before.rules
 	#sed -i "${lineNumber}i:POSTROUTING ACCEPT [0:0]" /etc/ufw/before.rules
 	#sed -i "${lineNumber}i*nat" /etc/ufw/before.rules
@@ -71,7 +71,7 @@ else
 	echo "*nat" >> /etc/ufw/before.rules
 	echo ":POSTROUTING ACCEPT [0:0]" >> /etc/ufw/before.rules
 	echo "# Allow traffic from OpenVPN client to $DEVICE_INTERFACE" >> /etc/ufw/before.rules
-	echo "-A POSTROUTING -s 10.7.0.0/8 -o $DEFAULT_INTERFACE - MASQUERADE" >> /etc/ufw/before.rules
+	echo "-A POSTROUTING -s 10.7.0.0/8 -o $DEFAULT_INTERFACE -j MASQUERADE" >> /etc/ufw/before.rules
 	echo "# END OPENVPN RULES" >> /etc/ufw/before.rules
 fi
 sed -i "s/DEFAULT_FORWARD_POLICY=\"DROP\"/DEFAULT_FORWARD_POLICY=\"ACCEPT\"/" /etc/default/ufw
