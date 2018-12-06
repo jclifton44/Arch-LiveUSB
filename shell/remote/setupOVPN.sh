@@ -49,19 +49,31 @@ sed -i "s/key server.key/key $SERVER_NAME.key/" /etc/openvpn/server.conf
 sed -i "s/server 10.8.0.0 255.255.255.0/server 10.7.0.0 255.255.255.0/" /etc/openvpn/server.conf
 sed -i "s/;topology subnet/topology subnet/" /etc/openvpn/server.conf
 
-sed -i "s/#new.ipv4.ip_forward=1/net.ipv4.ip_forward=1/" /etc/sysctl.conf
+sed -i "s/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/" /etc/sysctl.conf
 sysctl -p
 DEFAULT_INTERFACE=$(ip route | grep default | awk '{ print $5}';)
-
-sed -i "/#Don't delete these required.*/ a # END OPENVPN RULES" /etc/ufw/before.rules
-sed -i "/#Don't delete these required.*/ a COMMIT" /etc/ufw/before.rules
-sed -i "/#Don't delete these required.*/ a -A POSTROUTING -s 10.7.0.0/8 -o $DEFAULT_INTERFACE - MASQUERADE" /etc/ufw/before.rules
-sed -i "/#Don't delete these required.*/ a # Allow traffic from OpenVPN client to $DEVICE_INTERFACE" /etc/ufw/before.rules
-sed -i "/#Don't delete these required.*/ a :POSTROUTING ACCEPT [0:0]" /etc/ufw/before.rules
-sed -i "/#Don't delete these required.*/ a *nat" /etc/ufw/before.rules
-sed -i "/#Don't delete these required.*/ a # NAT table rules" /etc/ufw/before.rules
-sed -i "/#Don't delete these required.*/ a # START OPENVPN RULES" /etc/ufw/before.rules
-
+cat /etc/ufw/before.rules | grep "START OPENVPN RULES"
+if [ $? -eq 0 ];
+then
+	echo "/etc/ufw/before.rules contains routing info"
+else
+	echo "Updating /etc/ufw/before.rules for routing"
+	#lineNumber=$(wc -l /etc/ufw/before.rules | gawk '{ print $1}')
+	#sed -i "${lineNumber}i# END OPENVPN RULES" /etc/ufw/before.rules
+	#sed -i "${lineNumber}i-A POSTROUTING -s 10.7.0.0/8 -o $DEFAULT_INTERFACE - MASQUERADE" /etc/ufw/before.rules
+	#sed -i "${lineNumber}i# Allow traffic from OpenVPN client to $DEVICE_INTERFACE" /etc/ufw/before.rules
+	#sed -i "${lineNumber}i:POSTROUTING ACCEPT [0:0]" /etc/ufw/before.rules
+	#sed -i "${lineNumber}i*nat" /etc/ufw/before.rules
+	#sed -i "${lineNumber}i# NAT table rules" /etc/ufw/before.rules
+	#sed -i "${lineNumber}i# START OPENVPN RULES" /etc/ufw/before.rules
+	echo "# START OPENVPN RULES" >> /etc/ufw/before.rules
+	echo "# NAT table rules" >> /etc/ufw/before.rules
+	echo "*nat" >> /etc/ufw/before.rules
+	echo ":POSTROUTING ACCEPT [0:0]" >> /etc/ufw/before.rules
+	echo "# Allow traffic from OpenVPN client to $DEVICE_INTERFACE" >> /etc/ufw/before.rules
+	echo "-A POSTROUTING -s 10.7.0.0/8 -o $DEFAULT_INTERFACE - MASQUERADE" >> /etc/ufw/before.rules
+	echo "# END OPENVPN RULES" >> /etc/ufw/before.rules
+fi
 sed -i "s/DEFAULT_FORWARD_POLICY=\"DROP\"/DEFAULT_FORWARD_POLICY=\"ACCEPT\"/" /etc/default/ufw
 ufw allow 1194/udp
 ufw disable
