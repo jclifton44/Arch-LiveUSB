@@ -102,6 +102,10 @@ sed -i "s/;group nogroup/group nogroup/" $HOME/client-configs/base.conf
 sed -i "s/ca ca.crt//" $HOME/client-configs/base.conf
 sed -i "s/key client.key//" $HOME/client-configs/base.conf
 sed -i "s/cert client.crt//" $HOME/client-configs/base.conf
+if [[ $1 == '-m' ]]; 
+then
+	sed -i "/# SSL\/TLS parms./ a #NOTE: This client profile will connect to a VPN that is subject to monitoring for HTTP and HTTPS traffic" $HOME/client-configs/base.conf
+fi
 sed -i "/# SSL\/TLS parms./ a key-direction 1" $HOME/client-configs/base.conf
 sed -i "/# SSL\/TLS parms./ a auth SHA256" $HOME/client-configs/base.conf
 sed -i "/# SSL\/TLS parms./ a cipher AES-128-CBC" $HOME/client-configs/base.conf
