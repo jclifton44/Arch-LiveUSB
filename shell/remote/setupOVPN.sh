@@ -31,7 +31,15 @@ source vars
 ./build-key-server $SERVER_NAME #build server key
 ./build-dh #generate diffie helman number for key exchange
 openvpn --genkey --secret keys/ta.key #generate HMAC signature to verify and validated message (HMAC Hash-based Message Authentication Code) 
-./build-key $CLIENT_NAME #build client key
+numClients=-1
+while [[ $numClients -le 0 ]]; do
+	read -p "How many clients will there be? " numClients
+done
+echo "There will be $numClients clients"
+for ((count=1; count<=$numClients; count++)); do
+	./build-key ${CLIENT_NAME}${count} #build client key
+done
+
 cd keys
 cp ca.crt $SERVER_NAME.crt $SERVER_NAME.key ta.key dh2048.pem /etc/openvpn
 cd ../
@@ -48,7 +56,8 @@ sed -i "s/cert server.crt/cert $SERVER_NAME.crt/" /etc/openvpn/server.conf
 sed -i "s/key server.key/key $SERVER_NAME.key/" /etc/openvpn/server.conf
 sed -i "s/server 10.8.0.0 255.255.255.0/server 10.7.0.0 255.255.255.0/" /etc/openvpn/server.conf
 sed -i "s/;topology subnet/topology subnet/" /etc/openvpn/server.conf
-
+sed -i "s/;client-config-dir ccd/client-config-dir client-configs/" /etc/openvpn/server.conf
+mkdir /etc/openvpn/client-configs
 sed -i "s/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/" /etc/sysctl.conf
 sysctl -p
 DEFAULT_INTERFACE=$(ip route | grep default | awk '{ print $5}';)
@@ -96,6 +105,15 @@ sed -i "s/cert client.crt//" $HOME/client-configs/base.conf
 sed -i "/# SSL\/TLS parms./ a key-direction 1" $HOME/client-configs/base.conf
 sed -i "/# SSL\/TLS parms./ a auth SHA256" $HOME/client-configs/base.conf
 sed -i "/# SSL\/TLS parms./ a cipher AES-128-CBC" $HOME/client-configs/base.conf
-makeconfOVPN $CLIENT_NAME
+
+for ((count=1; count<=$numClients; count++)); do
+	makeconfOVPN ${CLIENT_NAME}${count}
+	echo "ifconfig-push 10.7.0.$((count + 100)) 255.255.255.0" > /etc/openvpn/client-configs/${CLIENT_NAME}${count}
+	cp $HOME/client-configs/files/${CLIENT_NAME}${count}.ovpn /var/www/html/hosted/
+	echo "rm /var/www/html/hosted/${CLIENT_NAME}${count}.ovpn" | at now + 5 minutes
+done
+
+
 cp $HOME/client-configs/files/*.ovpn /var/www/html/hosted
 cd $SAVED_DIRECTORY
+systemctl restart openvpn@server
