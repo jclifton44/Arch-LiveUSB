@@ -1,9 +1,5 @@
 apt-get update
-apt-get install nginx git python3
-curl -o get-pip.py https://bootstrap.pypa.io/get-pip.py
-python get-pip.py
-rm get-pip.py
-pip install Flask
+apt-get install nginx git
 ufw allow 'Nginx HTTP'
 ufw allow 'OpenSHH'
 ufw allow ssh
