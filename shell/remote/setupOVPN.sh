@@ -120,8 +120,4 @@ done
 
 cp $HOME/client-configs/files/*.ovpn /var/www/html/hosted
 cd $SAVED_DIRECTORY
-if [[ $1 == '-m' ]];
-then
-	setupMITMProxy
-fi
 systemctl restart openvpn@server
