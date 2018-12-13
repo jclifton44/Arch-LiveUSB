@@ -1,3 +1,20 @@
+ovpn="false"
+flask="false"
+for i in "$@"
+do	
+	case $i in
+		-o*)
+			echo "-o set"
+			ovpn="true"
+			shift
+		;;
+		-f*)
+			echo "-f set"
+			flask="true"
+			shift
+		;;
+	esac
+done
 apt-get update
 apt-get install nginx git
 ufw allow 'Nginx HTTP'
@@ -11,8 +28,13 @@ systemctl restart nginx
 compressInstall
 mkdir /var/www/html/hosted
 cp compressed-shell-scripts-source.tar.gz /var/www/html/hosted/
-if [[ $1 == '-o' ]]; 
+if [[ $ovpn == 'true' ]]; 
 then	
 	setupOVPN 
 fi
+if [[ $flask == 'true' ]];
+then
+	flaskWebServer
+fi
+
 
