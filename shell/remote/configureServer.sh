@@ -23,7 +23,7 @@ ufw allow ssh
 ufw app list
 ufw enable
 ufw status verbose
-cp /etc/shell/nginx.conf /etc/nginx/sites-available/default
+cp /etc/shell/nginx.conf /etc/nginx/sites-enabled/default
 systemctl restart nginx
 compressInstall
 mkdir /var/www/html/hosted
@@ -34,6 +34,8 @@ then
 fi
 if [[ $flask == 'true' ]];
 then
+	echo "Starting Flask webserver"
+	sleep 2
 	flaskWebServer
 fi
 
