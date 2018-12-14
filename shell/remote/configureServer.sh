@@ -36,7 +36,7 @@ if [[ $flask == 'true' ]];
 then
 	echo "Starting Flask webserver"
 	sleep 2
-	flaskWebServer
+	deployStack
 fi
 
 
