@@ -6,3 +6,8 @@ then
 	flask run&
 fi
 
+ps ax | grep mongo | grep fork
+if [ $? -ne '0' ];
+then
+	mongod --fork --logpath /var/log/mongodb.log
+fi
