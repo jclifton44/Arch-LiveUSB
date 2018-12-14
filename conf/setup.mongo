@@ -1,0 +1,4 @@
+db.createCollection("commits")
+db.createCollection("visitedSites")
+db.commits.remove({})
+db.visitedSites.remove({})
