@@ -1,15 +1,15 @@
+mongoDBVersion="4.0.4"
 SAVED_DIRECTORY=$(pwd)
-apt-get install make
+releaseName=$(lsb_release  -c | awk '{ print $2 }')
 curl -o get-pip.py https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
 rm get-pip.py
-pip install Flask
-wget http://download.redis.io/redis-stable.tar.gz
-tar xvzf redis-stable.tar.gz
-cp -r redis-stable /opt/
-cd /opt/redis-stable/
-make
+wget https://repo.mongodb.org/apt/ubuntu/dists/$releaseName/mongodb-org/4.0/multiverse/binary-amd64/mongodb-org-server_${mongoDBVersion}_amd64.deb
+dpkg -i mongodb-org-server_${mongoDBVersion}_amd64.deb
+pip install pymongo
+mkdir -p /data/db
 #pip install Jinja2
+pip install Flask 
 cd /opt/flask
 export FLASK_APP=historyDocumentation.py
 flask run&
