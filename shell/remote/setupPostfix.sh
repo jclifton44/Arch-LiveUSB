@@ -43,5 +43,7 @@ then
 fi
 
 echo 'init' | mail -s 'init' -Snorecord root
+echo "If this is the first time you've setup your mail server remember to export MAIL=$HOME/Maildir so mail knows where to get new mail. "
+sleep 2
 #WAY TO CREATE MAILDIR  (complicated or clever?)
 #https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-on-ubuntu-16-04 
