@@ -28,6 +28,7 @@ ufw app list
 ufw enable
 ufw status verbose
 cp /etc/shell/nginx.conf /etc/nginx/sites-enabled/default
+cp /etc/shell/nginxSSL.conf /etc/nginx/snippets/ssl-params.conf
 systemctl restart nginx
 compressInstall
 mkdir /var/www/html/hosted
