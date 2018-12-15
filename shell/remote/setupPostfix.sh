@@ -23,9 +23,24 @@ echo "export MAIL=$HOME/Maildir" | tee -a /etc/bash.bashrc
 postmap /etc/postfix/virtual
 systemctl restart postfix
 apt-get install s-nail
-echo "set emptystart" >> /etc/s-nail.rc
-echo "set folder=Maildir" >> /etc/s-nail.rc
-echo "set recort=+sent" >> /etc/s-nail.rc
+#cat /etc/s-nail.rc | grep 
+cat /etc/s-nail.rc | grep "^set emptystart"
+if [ $? -ne '0' ];
+then
+	echo "set emptystart" >> /etc/s-nail.rc
+fi
+
+cat /etc/s-nail.rc | grep "^set folder=Maildir"
+if [ $? -ne '0' ];
+then
+	echo "set folder=Maildir" >> /etc/s-nail.rc
+fi
+
+cat /etc/s-nail.rc | grep "^set record=+sent"
+if [ $? -ne '0' ];
+then
+	echo "set record=+sent" >> /etc/s-nail.rc
+fi
 
 echo 'init' | mail -s 'init' -Snorecord root
 #WAY TO CREATE MAILDIR  (complicated or clever?)

@@ -1,5 +1,6 @@
 ovpn="false"
 flask="false"
+postfix="false"
 for i in "$@"
 do	
 	case $i in
@@ -13,6 +14,9 @@ do
 			flask="true"
 			shift
 		;;
+		-p)
+			echo "-p set"
+			postfix="true"
 	esac
 done
 apt-get update
@@ -38,5 +42,10 @@ then
 	sleep 2
 	deployStack
 fi
-
+if [[ $postfix == 'true' ]];
+then
+	echo "Setting up email postfix server"
+	sleep 2
+	setupPostfix
+fi
 
