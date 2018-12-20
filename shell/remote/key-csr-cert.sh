@@ -35,51 +35,56 @@ keySet=""
 csrSet=""
 certSet=""
 DOMAIN_NAME=$1
-
 for i in "$@"
 do	
-	case $i in
+	case $1 in
 		-s*)
 			echo "Creating self-signed certificate"
 			selfSign="true"
 			shift
+			continue
 		;;
 		-key)
-			echo "Key Set"
 			keySet=$2
-			shift
-			shift
+			shift 2
+			continue
+
 		;;
 		-csr)
-			echo "CSR set"
 			csrSet=$2
-			shift
-			shift
+			shift 2
+			continue
+
 		;;
 		-cert)
-			echo "cert Set"
 			certSet=$2
-			shift
-			shift
+			shift 2
+			continue
 		;;
 		*)
+			echo $1
 			shift
+			continue
 		;;
 
 			
 
 esac
 done
-if [ $DOMAIN_NAME != "" ]
+if [ $DOMAIN_NAME ];
 then
-	if [ $selfSign == "true" ]
+	if [ $selfSign == "true" ];
 	then
 		#Generate a self-signed certificate
-		if [ keySet != "" ]
+		echo "Signing certificate created by you."
+		echo $keySet
+		if [ ! -z $keySet ];
 		then
-			if [ csrSet != "" ]
+			echo "Using key: $keySet"
+			if [ $csrSet ];
 			then
-				openssl x509 -signkey $keySet -in $DOMAIN_CSR.csr -req -days 365 -out $DOMAIN_NAME.crt
+				echo "Using csr: $csrSet"
+				openssl x509 -signkey $keySet -in $csrSet -req -days 365 -out $DOMAIN_NAME.crt
 			else
 				openssl req -key $keySet -new -x509 -days 365 -out $DOMAIN_NAME.crt
 			fi
@@ -88,13 +93,12 @@ then
 			echo "Creating a self-signed certificate. $DOMAIN_NAME.crt and $DOMAIN_NAME.key"
 			openssl req -newkey rsa:2048 -nodes -keyout $DOMAIN_NAME.key -x509 -days 365 -out $DOMAIN_NAME.crt
 		fi
-		echo "Signing certificate created by you."
 		
 	else
 		#Generate a CSR to send to a CA
-		if [ keySet != "" ]
+		if [ $keySet ];
 		then
-			if [certSet != "" ]
+			if [ $certSet ];
 			then
 				openssl x509 -in $certSet -signkey $keySet -x509toreq -out $DOMAIN_NAME.csr
 			else
