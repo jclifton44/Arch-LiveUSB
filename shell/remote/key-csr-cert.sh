@@ -1,5 +1,10 @@
 #for more info: openssl req ?
+#for more info: openssl x509 ?
 # openssl req ?
+# openssl x509 ?
+
+# req utility is for creating CSRs
+# x509 utility is for signing 
 # -new 
 #	new request
 
