@@ -39,7 +39,7 @@ if [[ $ssl == 'true' ]];
 then
 	sed -i "s/#listen 443 ssl default_server;/listen 443 ssl default_server;/g" /etc/nginx/sites-enabled/default
  	sed -i "s/#listen [::]:443 ssl default_server;/listen [::]:443 ssl default_server;/g" /etc/nginx/sites-enabled/default
-	sed -i "s/#include snippets/ssl-params.conf;/include snippets/ssl-params.conf;/g" /etc/nginx/sites-enabled/default
+	sed -i "s/#include snippets\/ssl-params.conf;/include snippets\/ssl-params.conf;/g" /etc/nginx/sites-enabled/default
 	ufw allow 'Nginx HTTPS'
 	cp /etc/shell/nginxSSL.conf /etc/nginx/snippets/ssl-params.conf
 	openssl dhparam -out /etc/ssl/dhparam.pem 2048
