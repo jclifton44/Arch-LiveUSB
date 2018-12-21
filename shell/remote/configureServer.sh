@@ -32,7 +32,7 @@ do
 done
 apt-get update
 apt-get install nginx git
-ufw allow 'OpenSHH'
+ufw allow 'OpenSSH'
 ufw allow 'Nginx HTTP'
 cp /etc/shell/nginx.conf /etc/nginx/sites-enabled/default
 if [[ $ssl == 'true' ]];
@@ -41,7 +41,6 @@ then
  	sed -i "s/#listen [::]:443 ssl default_server;/listen [::]:443 ssl default_server;/g" /etc/nginx/sites-enabled/default
 	sed -i "s/#include snippets/ssl-params.conf;/include snippets/ssl-params.conf;/g" /etc/nginx/sites-enabled/default
 	ufw allow 'Nginx HTTPS'
-	openssl 	
 	cp /etc/shell/nginxSSL.conf /etc/nginx/snippets/ssl-params.conf
 	openssl dhparam -out /etc/ssl/dhparam.pem 2048
 	key-csr-cert $keyName -s
