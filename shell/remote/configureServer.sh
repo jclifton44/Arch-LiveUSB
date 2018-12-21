@@ -37,11 +37,13 @@ ufw allow 'Nginx HTTP'
 cp /etc/shell/nginx.conf /etc/nginx/sites-enabled/default
 if [[ $ssl == 'true' ]];
 then
+	cp /etc/shell/nginxSSL.conf /etc/nginx/snippets/ssl-params.conf
 	sed -i "s/#listen 443 ssl default_server;/listen 443 ssl default_server;/g" /etc/nginx/sites-enabled/default
  	sed -i "s/#listen [::]:443 ssl default_server;/listen [::]:443 ssl default_server;/g" /etc/nginx/sites-enabled/default
 	sed -i "s/#include snippets\/ssl-params.conf;/include snippets\/ssl-params.conf;/g" /etc/nginx/sites-enabled/default
+	sed -i "s/ssl_certificate \/etc\/ssl\/certs\/ssl-cert.cert;/ ssl_certificate \/etc\/ssl\/certs\/$keyName.crt/g" /etc/nginx/snippets/ssl-params.conf
+	sed -i "s/ssl_certificate_key \/etc\/ssl\/private\/ssl-key.key;/ ssl_certificate \/etc\/ssl\/private\/$keyName.key/g" /etc/nginx/snippets/ssl-params.conf
 	ufw allow 'Nginx HTTPS'
-	cp /etc/shell/nginxSSL.conf /etc/nginx/snippets/ssl-params.conf
 	openssl dhparam -out /etc/ssl/dhparam.pem 2048
 	key-csr-cert $keyName -s
 	cp $keyName.key /etc/ssl/private/$keyName.key
