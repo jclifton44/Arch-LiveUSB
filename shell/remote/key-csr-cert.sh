@@ -89,14 +89,16 @@ then
 			if [ $csrSet ];
 			then
 				echo "Using csr: $csrSet"
-				openssl x509 -signkey $keySet -in $csrSet -req -days 365 -out $DOMAIN_NAME.crt
+				openssl x509 -signkey $keySet -in $csrSet -req -days 365 -out $DOMAIN_NAME.crt -config /etc/shell/opensslConfig -extensions v3_req
 			else
-				openssl req -key $keySet -new -x509 -days 365 -out $DOMAIN_NAME.crt
+				openssl req -key $keySet -new -x509 -days 365 -out $DOMAIN_NAME.crt -config /etc/shell/opensslConfig -extensions v3_req
 			fi
 			echo "Create CSR: $DOMAIN_NAME.csr"
 		else
 			echo "Creating a self-signed certificate. $DOMAIN_NAME.crt and $DOMAIN_NAME.key"
-			openssl req -newkey rsa:2048 -nodes -keyout $DOMAIN_NAME.key -x509 -days 365 -out $DOMAIN_NAME.crt
+			openssl req -newkey rsa:2048 -nodes -keyout $DOMAIN_NAME.key -x509 -days 365 -out $DOMAIN_NAME.crt -config /etc/shell/opensslConfig -extensions v3_req
+			#( command arg1 arg 2) is a subshell
+			# allows for parallel processing
 		fi
 		
 	else
@@ -105,14 +107,14 @@ then
 		then
 			if [ $certSet ];
 			then
-				openssl x509 -in $certSet -signkey $keySet -x509toreq -out $DOMAIN_NAME.csr
+				openssl x509 -in $certSet -signkey $keySet -x509toreq -out $DOMAIN_NAME.csr -config /etc/shell/opensslConfig -extensions v3_req
 			else
-				openssl req -key $keySet -new -out $DOMAIN_NAME.csr
+				openssl req -key $keySet -new -out $DOMAIN_NAME.csr -config /etc/shell/opensslConfig -extensions v3_req
 			fi
 			echo "Create CSR: $DOMAIN_NAME.csr"
 		else
 			echo "Created CSR and private key: $DOMAIN_NAME.csr and $DOMAIN_NAME.key"
-			openssl req -new -newkey rsa:2048 -nodes -keyout $DOMAIN_NAME.key -out $DOMAIN_NAME.csr
+			openssl req -new -newkey rsa:2048 -nodes -keyout $DOMAIN_NAME.key -out $DOMAIN_NAME.csr -config /etc/shell/opensslConfig -extensions v3_req
 		fi
 	fi
 	
