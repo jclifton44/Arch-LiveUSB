@@ -2,7 +2,6 @@ from flask import Flask, url_for, request
 import logging, pymongo, datetime, json
 from pymongo import MongoClient
 
-
 app = Flask(__name__)
 
 @app.route("/history/")
