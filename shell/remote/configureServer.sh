@@ -48,8 +48,10 @@ then
 	cp $keyName.key /etc/ssl/private/$keyName.key
 	cp $keyName.crt /etc/ssl/certs/$keyName.crt
 	rm $keyName.key
+	cp $keyName.crt /var/www/html/hosted/
 	rm $keyName.crt
 	openssl dhparam -out /etc/ssl/dhparams.pem 2048
+	echo "rm /var/www/html/hosted/$keyName.crt" | at now + 5 minutes
 	if [ $selfSign == 'false' ];
 	then
 		key-csr-cert $keyName
