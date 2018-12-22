@@ -8,7 +8,7 @@ curl $mongoDBKey | apt-key add
 echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
 apt-get update
 #dpkg -i mongodb-org-server_${mongoDBVersion}_amd64.deb
-apt-get install mongo-org
+apt-get install mongodb-org
 pip install pymongo
 mongo 127.0.0.1:27017/historyDocumentation  < /etc/shell/setup.historyDocumentation
 mkdir -p /data/db
