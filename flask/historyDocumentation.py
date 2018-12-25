@@ -21,7 +21,7 @@ def pageVisit(commit):
 	responsePage="<h1>"+commit+": </h1><br><a href='"+uri+"history/writeCommit/'> Back to commits</a> <br>Sites: <br>"
 	if request.method == "GET":
 		valid=re.compile(r"^\w*$")
-		if !valid.match(commit):
+		if valid.match(commit) is None:
 			return "invalid request"
 		pageVisitsDuringCommit=visitedSites.find({"commit":commit}).sort('date',pymongo.DESCENDING)
 		for pageVisit in pageVisitsDuringCommit:
@@ -30,10 +30,10 @@ def pageVisit(commit):
 	if request.method == "POST":	
 		if formData.has_key('site'):
 			valid=re.compile(r"^\w*$")
-                	if !valid.match(commit):
+                	if valid.match(commit) is None:
                         	return "invalid request"
-			valid=re.compile(r"^[A-Za-z0-9-._~:/?#[]@!$&'()*+,;=]*$")
-			if !valid.match(formData['site'])
+			valid=re.compile(r"^[A-Za-z0-9-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]*$")
+			if valid.match(formData['site']) is None:
 				return "invalid request"
 			if commits.count_documents({"name":commit}) == 0:
 				c={ "date": datetime.datetime.utcnow(),
@@ -76,7 +76,7 @@ def writeCommit():
 	if request.method == "POST":	
 		if formData.has_key('commit'):
 			valid=re.compile(r"^\w*$")
-			if !valid.match(formData['commit'])
+			if valid.match(formData['commit']) is None:
 				return "invalid request"
 			c = { "date": datetime.datetime.utcnow(),
 			"name":formData['commit']
