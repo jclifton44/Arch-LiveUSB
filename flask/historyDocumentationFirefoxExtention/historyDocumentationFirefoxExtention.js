@@ -5,6 +5,7 @@ var pageVisitUrl='https://jeremy-clifton.com/history/pageVisit/'
 var commitUrl='https://jeremy-clifton.com/history/writeCommit/'
 var historyPaginationKey="error"
 var data
+asdf
 var fail = function(res){
   //alert('pageVisit not accepted')
 } 
