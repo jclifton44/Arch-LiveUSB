@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route("/history/")
 def hello():
-	return "Page History Versioning Utility"
+	return "<h1>Page History Versioning Utility</h1><br><a href='"+uri+"history/writeCommit/'> Commits </a>"
 
 
 @app.route("/history/pageVisit/<commit>/",methods=['GET','POST'])
@@ -18,25 +18,34 @@ def pageVisit(commit):
 	commits=db.commits
 	formData=request.form
 	#print formData['site']
-	responsePage="<h1>"+commit+": </h1> <br>Sites: <br>"
+	responsePage="<h1>"+commit+": </h1><br><a href='"+uri+"history/writeCommit/'> Back to commits</a> <br>Sites: <br>"
 	if request.method == "GET":
-		print "GET MESSAGE"
-		pageVisitsDuringCommit=visitedSites.find({"commit":commit})	
+		pageVisitsDuringCommit=visitedSites.find({"commit":commit}).sort('date',pymongo.DESCENDING)
 		for pageVisit in pageVisitsDuringCommit:
 			responsePage+=pageVisit['site']+"<br>"
 		
 	if request.method == "POST":	
-		if commits.count_documents({"name":commit}) == 0:
-			commitForSite=commits.find({"name":commit})
-			c={ "date": datetime.datetime.utcnow(),
-				"name":commit}
-			c_id=commits.insert_one(c).inserted_id
-		
-		siteVisit={"date": datetime.datetime.utcnow(),
-			"site":	formData['site'],
-			"commit": commit,
-			}
-		visitedSite_id=visitedSites.insert_one(siteVisit).inserted_id
+		if formData.has_key('site'):
+			if commits.count_documents({"name":commit}) == 0:
+				c={ "date": datetime.datetime.utcnow(),
+					"name":commit}
+				c_id=commits.insert_one(c).inserted_id
+			
+			siteVisit={"date": datetime.datetime.utcnow(),
+				"site":	formData['site'],
+				"commit": commit,
+				}
+			visitedSite_id=visitedSites.insert_one(siteVisit).inserted_id
+		else:
+			visitedSitesDuringCommit=visitedSites.find({"commit":commit}).sort('date',pymongo.DESCENDING)
+			jsonSiteObject={}
+			jsonSiteObject['commit'] = commit
+			jsonSiteObject['sites'] = []
+			for siteVisit in visitedSitesDuringCommit:
+				jsonSiteObject['sites'].append(siteVisit['site'])
+			return json.dumps(jsonSiteObject)
+			
+			 
 		#print "Inserted document id: " + visitedSite_id
 		
 	
@@ -52,14 +61,23 @@ def writeCommit():
 	formData=request.form
 	responsePage="<h1>Commits:</h1><br>"	
 	if request.method == "GET":
-		allCommits=commits.find()
+		allCommits=commits.find().sort('date',pymongo.DESCENDING)
 		for c in allCommits:
 			responsePage+="<a href='"+uri+"history/pageVisit/"+c['name']+"/'>"+c['name']+"</a><br>"
 	if request.method == "POST":	
-		c = { "date": datetime.datetime.utcnow(),
-		"name":formData['commit']
-		}
-		c_id=commits.insert_one(c).inserted_id
+		if formData.has_key('commit'):
+			c = { "date": datetime.datetime.utcnow(),
+			"name":formData['commit']
+			}
+			c_id=commits.insert_one(c).inserted_id
+		else:
+			allCommits=commits.find().sort('date',pymongo.DESCENDING)
+			jsonCommitObject={}
+			mostRecentCommit=allCommits[1]['name'] if allCommits[0]['name'] == 'error' else allCommits[0]['name']
+			jsonCommitObject['name']=mostRecentCommit
+			return json.dumps(jsonCommitObject)
+			
+		
 	return responsePage
 
 
