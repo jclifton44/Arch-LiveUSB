@@ -1,5 +1,5 @@
 from flask import Flask, url_for, request
-import logging, pymongo, datetime, json
+import logging, pymongo, datetime, json, re
 from pymongo import MongoClient
 uri="https://jeremy-clifton.com/"
 app = Flask(__name__)
@@ -20,12 +20,21 @@ def pageVisit(commit):
 	#print formData['site']
 	responsePage="<h1>"+commit+": </h1><br><a href='"+uri+"history/writeCommit/'> Back to commits</a> <br>Sites: <br>"
 	if request.method == "GET":
+		valid=re.compile(r"^\w*$")
+		if !valid.match(commit):
+			return "invalid request"
 		pageVisitsDuringCommit=visitedSites.find({"commit":commit}).sort('date',pymongo.DESCENDING)
 		for pageVisit in pageVisitsDuringCommit:
 			responsePage+=pageVisit['site']+"<br>"
 		
 	if request.method == "POST":	
 		if formData.has_key('site'):
+			valid=re.compile(r"^\w*$")
+                	if !valid.match(commit):
+                        	return "invalid request"
+			valid=re.compile(r"^[A-Za-z0-9-._~:/?#[]@!$&'()*+,;=]*$")
+			if !valid.match(formData['site'])
+				return "invalid request"
 			if commits.count_documents({"name":commit}) == 0:
 				c={ "date": datetime.datetime.utcnow(),
 					"name":commit}
@@ -66,6 +75,9 @@ def writeCommit():
 			responsePage+="<a href='"+uri+"history/pageVisit/"+c['name']+"/'>"+c['name']+"</a><br>"
 	if request.method == "POST":	
 		if formData.has_key('commit'):
+			valid=re.compile(r"^\w*$")
+			if !valid.match(formData['commit'])
+				return "invalid request"
 			c = { "date": datetime.datetime.utcnow(),
 			"name":formData['commit']
 			}
