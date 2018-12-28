@@ -20,7 +20,7 @@ flask run&
 cat /etc/crontab | grep checkServices
 if [ $? -ne '0' ];
 then
-echo "* /5 * * * * checkServices" >> /etc/crontab
+echo "*/5 * * * * checkServices" >> /etc/crontab
 fi
 
 cd $SAVED_DIRECTORY
