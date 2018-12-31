@@ -11,20 +11,18 @@ do
 		--list*)
 			echo "Key list:"
 			listFlag="true"
-			shift
 			break
 		;;
 		--add)
 			echo "Key add:"
 			addFlag="true"
 			keyName="$2"
-			shift
 			break
 		;;
 		--remove)
 			echo "Key remove:"
 			removeFlag="true"
-			shift
+			keyName="$2"
 			break
 	esac
 done
