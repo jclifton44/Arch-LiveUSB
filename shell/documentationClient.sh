@@ -2,6 +2,7 @@ serverName=$1
 writeCommit="false"
 pageVisit="false"
 recentCommit="false"
+shift
 for i in "$@"
 do	
 	case $1 in
@@ -28,7 +29,6 @@ do
 	esac
 done
 
-./parseJSON.sh "$(curl -s -X POST --cacert /etc/shell/keys/jeremy-clifton.crt https://jeremy-clifton.com/history/writeCommit/)" name
 serverProtocol=$(./urlParser.sh $serverName | awk '{ print $1 }')
 serverFQDN=$(./urlParser.sh $serverName | awk '{ print $2 }')
 serverPath=$(./urlParser.sh $serverName | awk '{ print $3 }')
@@ -43,7 +43,7 @@ then
 		keyRing --add $serverFQDN
 	fi
 	certFlag=" --cacert /etc/shell/keys/$(echo $serverFQDN | sed 's/\..*$//g')"
-if [ $serverProtocol == 'http' ];
+elif [ $serverProtocol == 'http' ];
 then
 	certFlag=""
 else
@@ -56,9 +56,10 @@ else
 	fi
 	certFlag=" --cacert /etc/shell/keys/$(echo $serverFQDN | sed 's/\..*$//g')"
 fi
-responseCode=$(curl  -i $certFlag $serverName | grep HTTP | awk '{ print  $2 }')
 #curl  -i --cacert /etc/shell/keys/jeremy-clifton.crt $serverName 
-if [ $responseCode -ne 200 ]; then
+echo "checking connectivity"
+responseCode=$(curl -s -i -m 15 $certFlag $serverName | grep HTTP | awk '{ print  $2 }')
+if [ "$responseCode" != "200" ]; then
 	echo "Server error. Exiting."
 	exit
 else	
@@ -67,18 +68,15 @@ fi
 
 if [ $writeCommit == "true" ]; 
 then
+	echo "writeCommit"
 fi
 
 if [ $pageVisit == "true" ]; 
 then
+	echo "Page Visit"
 fi
 
 if [ $recentCommit == "true" ]; 
 then
+	./parseJSON.sh "$(curl -s -X POST $certFlag https://jeremy-clifton.com/history/writeCommit/)" name
 fi
-
-#if [ $writeCommit == "true" ]; 
-#then
-#fi
-
-
