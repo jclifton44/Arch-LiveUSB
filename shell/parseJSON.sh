@@ -264,6 +264,7 @@ else
 				jsonArray=$(echo "${jsonArray:$((bracketIndex+1)):$nextLength}")
 				jsonArray=$(echo $jsonArray | sed "s/^\s*,\s*//")
 			else
+				
 				echo $jsonArray | grep "^\s*\[" >> /dev/null
 				if [ $? -eq 0 ];
 				then
@@ -296,7 +297,6 @@ else
 						if [ $firstBracket == 'true' ] && [ $brackets -eq 0 ];
 						then
 							bracketIndex=$i
-							echo $bracketIndex
 							break;
 						fi
 
@@ -309,28 +309,58 @@ else
 					
 
 				else
-
-					firstDoubleQuote="false"
-					quoteIndex=0
-					for (( i=0; i < ${#jsonArray}; i=$((i+1)) ))
-					do
-						if [ "${jsonArray:$i:1}" == "\"" ] && [ $firstDoubleQuote == "true" ]; then
-							if [ "${jsonObjectList:$((i-1)):1}" != "\\" ]; then
-								quoteIndex=$i
-								firstDoubleQuote="false"
-								break
+					
+					echo $jsonArray | grep "^\s*\"" >> /dev/null
+					if [ $? -eq 0 ]; then
+						firstDoubleQuote="false"
+						quoteIndex=0
+						for (( i=0; i < ${#jsonArray}; i=$((i+1)) ))
+						do
+							if [ "${jsonArray:$i:1}" == "\"" ] && [ $firstDoubleQuote == "true" ]; then
+								if [ "${jsonObjectList:$((i-1)):1}" != "\\" ]; then
+									quoteIndex=$i
+									firstDoubleQuote="false"
+									break
+								fi
 							fi
-						fi
-						if [ "${jsonArray:$i:1}" == "\"" ] && [ $firstDoubleQuote == "false" ]; then
-							firstDoubleQuote="true"
-						fi
-					done
+							if [ "${jsonArray:$i:1}" == "\"" ] && [ $firstDoubleQuote == "false" ]; then
+								firstDoubleQuote="true"
+							fi
+						done
 
-					key=$(echo "${jsonArray:0:$((quoteIndex + 1))}")
-					nextLength=${#jsonArray}
-					nextLength=$((nextLength-quoteIndex))
-					jsonArray=$(echo "${jsonArray:$((quoteIndex+1)):$nextLength}")
-					jsonArray=$(echo $jsonArray | sed "s/^\s*\,\s*//")
+						key=$(echo "${jsonArray:0:$((quoteIndex + 1))}")
+						nextLength=${#jsonArray}
+						nextLength=$((nextLength-quoteIndex))
+						jsonArray=$(echo "${jsonArray:$((quoteIndex+1)):$nextLength}")
+						jsonArray=$(echo $jsonArray | sed "s/^\s*\,\s*//")
+					else
+						echo $jsonArray | grep "^\s*[0-9]\{1,\}\s*" >> /dev/null
+						if [ $? -eq 0 ];
+						then
+							key=$(echo $jsonArray | sed "s/,.*//g")
+							jsonArray=$(echo $jsonArray | sed "s/^\s*$key\s*//g")
+							jsonArray=$(echo $jsonArray | sed "s/^\s*,\s*//g")
+						else
+							echo $jsonArray | grep "^\s*true*\s*" >> /dev/null
+							if [ $? -eq 0 ]; then
+								key="true"
+								jsonArray=$(echo $jsonArray | sed "s/^\s*true\s*,//g")
+							fi
+							echo $jsonArray | grep "^\s*false*\s*" >> /dev/null
+							if [ $? -eq 0 ]; then
+								key="false"
+								jsonArray=$(echo $jsonArray | sed "s/^\s*false\s*,//g")
+							fi
+							echo $jsonArray | grep "^\s*null*\s*" >> /dev/null
+							if [ $? -eq 0 ]; then
+								key="null"
+								jsonArray=$(echo $jsonArray | sed "s/^\s*null\s*,//g")
+							fi
+	
+						fi
+
+
+					fi
 
 						
 				fi
