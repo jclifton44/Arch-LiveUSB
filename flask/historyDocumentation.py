@@ -1,6 +1,10 @@
 from flask import Flask, url_for, request
-import logging, pymongo, datetime, json, re
+
+import logging, pymongo, datetime, json, re, requests
 from pymongo import MongoClient
+from urlparse import urlparse
+dictionaryAPIKey="7e906e34-8a6c-4680-8995-18b625688abd"
+#key from dictionaryapi.com
 uri="https://jeremy-clifton.com/"
 app = Flask(__name__)
 
@@ -9,6 +13,25 @@ def hello():
 	return "<h1>Page History Versioning Utility</h1><br><a href='"+uri+"history/writeCommit/'> Commits </a>"
 
 
+
+@app.route("/history/definitions/",methods=['GET','POST'])
+def definitions():
+	client=MongoClient()
+	db=client.historyDocumentation
+	words=db.words
+	if request.method == "GET":
+		wordDefinitions=words.find().sort('date',pymongo.DESCENDING)
+		wordTable="<table style=\"border:solid\">"
+		for w in wordDefinitions:
+			definitionElement=""
+			for definition in w['definitions']:
+				definitionElement+="- " + definition + "<br>"
+			wordTable+="<tr><td style=\"vertical-align:top;\"  ><b>" + str(w['word']) + "</b></td><td> " + definitionElement + "</td></tr>"
+		wordTable+="</table>"
+		return wordTable
+	return "Invalid Request"
+	
+
 @app.route("/history/pageVisit/<commit>/",methods=['GET','POST'])
 def pageVisit(commit):
 	print('Connecting to client')
@@ -16,6 +39,7 @@ def pageVisit(commit):
 	db=client.historyDocumentation
 	visitedSites=db.visitedSites	
 	commits=db.commits
+	words=db.words
 	formData=request.form
 	#print formData['site']
 	responsePage="<h1>"+commit+": </h1><br><a href='"+uri+"history/writeCommit/'> Back to commits</a> <br>Sites: <br>"
@@ -35,6 +59,33 @@ def pageVisit(commit):
 			valid=re.compile(r"^[A-Za-z0-9-\.\_\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]*$")
 			if valid.match(formData['site']) is None:
 				return "invalid request"
+			else:
+				definitionUrl=urlparse(formData['site'])
+				print "valid"
+				print definitionUrl.path
+				print definitionUrl.netloc
+				print definitionUrl
+				if definitionUrl.path == "/search" and definitionUrl.netloc == "www.google.com":
+					print "search and google"
+					definitionRegex=re.compile(r"^q=[A-Za-z]*$")
+					print definitionUrl.query
+					word=definitionUrl.query[2:]
+					if definitionRegex.match(definitionUrl.query):
+						definitionRequest=requests.get("https://dictionaryapi.com/api/v3/references/collegiate/json/" + word + "?key=" + dictionaryAPIKey)
+						definition=json.loads(definitionRequest.content)
+						if 'meta' in definition[0]:
+							#print definition[0]['shortdef']
+							w={ "word": word,
+								"definitions":definition[0]['shortdef'],
+								"date":datetime.datetime.utcnow()
+							}
+							w_id=words.insert_one(w).inserted_id
+						
+							
+				
+
+
+
 			if commits.count_documents({"name":commit}) == 0:
 				c={ "date": datetime.datetime.utcnow(),
 					"name":commit}
@@ -75,12 +126,15 @@ def writeCommit():
 			responsePage+="<a href='"+uri+"history/pageVisit/"+c['name']+"/'>"+c['name']+"</a><br>"
 	if request.method == "POST":	
 		if formData.has_key('commit'):
+			print "POST"
 			valid=re.compile(r"^\w*$")
 			if valid.match(formData['commit']) is None:
 				return "invalid request"
 			c = { "date": datetime.datetime.utcnow(),
 			"name":formData['commit']
 			}
+			
+	
 			c_id=commits.insert_one(c).inserted_id
 		else:
 			allCommits=commits.find().sort('date',pymongo.DESCENDING)
