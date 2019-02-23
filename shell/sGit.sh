@@ -1,3 +1,4 @@
+killall wpa_supplicant
 startWPA2Wireless
 dhcpcd
 sleep 3

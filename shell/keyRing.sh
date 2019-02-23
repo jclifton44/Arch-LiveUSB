@@ -34,11 +34,15 @@ fi
 
 if [[ $addFlag == "true" ]];
 then
-	cat /etc/shell/keyRingList | grep $keyName >> /dev/null
+	serverProtocol=$(./urlParser.sh $keyName | awk '{ print $1 }')
+	serverFQDN=$(./urlParser.sh $keyName | awk '{ print $2 }')
+	serverPath=$(./urlParser.sh $keyName | awk '{ print $3 }')
+	cat /etc/shell/keyRingList | grep $serverFQDN >> /dev/null
 	if [[ $? -ne 0 ]];
-	then
-		echo sendable | openssl s_client -servername $keyName -connect $keyName:443 >> /etc/shell/keys/$(echo $keyName | sed "s/\..*$//g").crt
-		echo $keyName >> /etc/shell/keyRingList
+	then 
+		#$(echo $serverFQDN | sed "s/\..*$//g")
+		echo sendable | openssl s_client -servername $serverFQDN -connect $serverFQDN:443 >> /etc/shell/keys/$(echo $serverFQDN | sed "s/\..*$//g").crt
+		echo $serverFQDN >> /etc/shell/keyRingList
 	else
 		echo "Key already in key ring. Exiting."
 	fi
