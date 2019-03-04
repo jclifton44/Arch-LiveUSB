@@ -14,6 +14,24 @@ def hello():
 
 
 
+@app.route("/tradingWorkspace/",methods=['GET','POST'])
+def trading():
+	client=MongoClient()
+	db=client.historyDocumentation
+	words=db.words
+	if request.method == "GET":
+		wordDefinitions=words.find().sort('date',pymongo.DESCENDING)
+		wordTable="<table style=\"border:solid\">"
+		for w in wordDefinitions:
+			definitionElement=""
+			for definition in w['definitions']:
+				definitionElement+="- " + definition + "<br>"
+			wordTable+="<tr><td style=\"vertical-align:top;\"  ><b>" + str(w['word']) + "</b></td><td> " + definitionElement + "</td></tr>"
+		wordTable+="</table>"
+		return wordTable
+	return "Invalid Request"
+	
+
 @app.route("/history/definitions/",methods=['GET','POST'])
 def definitions():
 	client=MongoClient()
