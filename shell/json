@@ -1,0 +1,13 @@
+{
+
+"item1": [22, {"obinar": "value"},["subarr",44] ],
+"item2": {"key1": "key2"},
+"item3" : "value",
+
+"item4" : null,
+"item5" : false,
+"item6" : true,
+"item7" : 3242
+
+
+}

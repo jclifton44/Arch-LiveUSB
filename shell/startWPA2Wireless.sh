@@ -1,9 +1,9 @@
 #This script connects you to a wifi-router named ssid with psk and disables your ipv6
 #To reenable IPv6 remove the first line from /proc/sys/net/ipv6/<dev>/disable_ipv6
-dev=$(sh getInterface.sh)
+dev=$(getInterface)
 echo "interface:"
 echo $iface
-sh status.sh
+status
 sleep 5
 echo "Shutting all ports..."
 iptables -P INPUT DROP
@@ -21,7 +21,7 @@ psk="chwifi2015"
 echo "Using ssid: '$ssid'"
 echo "Using psk: '$psk'"
 echo ""
-sh status.sh
+status
 #iw dev $dev link
 #iw dev $dev set type ibss
 #echo "Set type to ibss"

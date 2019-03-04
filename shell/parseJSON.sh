@@ -1,5 +1,13 @@
 if [ $# -eq 1 ]; then
-	echo $1
+	returnJson=""
+	echo $1 | grep "^\".*\"$" >> /dev/null
+	if [ $? -eq 0 ];
+	then
+		returnJson=$(echo $1 | sed "s/^\"//g" | sed "s/\"$//g")
+	else
+		returnJson=$1
+	fi
+	echo $returnJson
 	exit
 fi
 

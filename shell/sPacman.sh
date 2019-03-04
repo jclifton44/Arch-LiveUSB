@@ -1,3 +1,4 @@
+killall wpa_supplicant
 echo "Securely installing ${@:1}"
 startWPA2Wireless
 dhcpcd

@@ -12,4 +12,5 @@ cp -r /etc/shell/* conf
 rm -rf conf/installedFiles
 cd ../
 tar -zcvf compressed-shell-scripts-source.tar.gz $name
+cp compressed-shell-scripts-source.tar.gz /etc/shell/
 rm -rf $name

@@ -2,6 +2,8 @@
 param (
 [string]$isopath = "C:\Users\Jeremy\Documents\archlinux-2018.10.01-x86_64.iso"
 )
+#Usage:
+#makeArch.ps1 -isopath C:\Users\Jeremy\Documents\archlinux-2018.10.01-x86_64.iso
 echo "Checking iso " $isopath
 
 #https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/test-path?view=powershell-6

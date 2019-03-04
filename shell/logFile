@@ -1,0 +1,333 @@
+Securely installing make squashfs-tools libisoburn dosfstools patch lynx devtools git
+interface:
+
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST> mtu 1500 qdisc mq state DOWN mode DEFAULT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Not connected.
+Shutting all ports...
+Using ssid: 'The Clubhouse WiFi'
+Using psk: 'chwifi2015'
+
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST> mtu 1500 qdisc mq state DOWN mode DEFAULT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Not connected.
+Successfully initialized wpa_supplicant
+
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DORMANT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Connected to 2c:c5:d3:0b:0a:28 (on wlp2s0)
+	SSID: The Clubhouse WiFi
+	freq: 2462
+	RX: 500067 bytes (1298 packets)
+	TX: 1181 bytes (10 packets)
+	signal: -54 dBm
+	tx bitrate: 72.2 MBit/s MCS 7 short GI
+
+	bss flags:	short-preamble short-slot-time
+	dtim period:	1
+	beacon int:	100
+
+[1m[32m==>[m[1m Appending keys from archlinux.gpg...[m
+[1m[32m==>[m[1m Locally signing trusted keys in keyring...[m
+[1m[34m  ->[m[1m Locally signing key DDB867B92AA789C165EEFA799B729B06A680C281...[m
+[1m[34m  ->[m[1m Locally signing key 684148BB25B49E986A4944C55184252D824B18E8...[m
+[1m[34m  ->[m[1m Locally signing key 91FFE0700E80619CEB73235CA88E23E377514E00...[m
+[1m[34m  ->[m[1m Locally signing key AB19265E5D7D20687D303246BA1DFB64FFF979E7...[m
+[1m[34m  ->[m[1m Locally signing key 0E8B644079F599DFC1DDC3973348882F6AC6A4C2...[m
+[1m[32m==>[m[1m Importing owner trust values...[m
+[1m[32m==>[m[1m Disabling revoked keys in keyring...[m
+[1m[34m  ->[m[1m Disabling key 7FA647CD89891DEDC060287BB9113D1ED21E1A55...[m
+[1m[34m  ->[m[1m Disabling key D4DE5ABDE2A7287644EAC7E36D1A9E70E19DAA50...[m
+[1m[34m  ->[m[1m Disabling key 40440DC037C05620984379A6761FAD69BA06C6A9...[m
+[1m[34m  ->[m[1m Disabling key B1F2C889CB2CCB2ADA36D963097D629E437520BD...[m
+[1m[34m  ->[m[1m Disabling key 5357F3B111688D88C1D88119FCF2CB179205AC90...[m
+[1m[34m  ->[m[1m Disabling key 5559BC1A32B8F76B3FCCD9555FA5E5544F010D48...[m
+[1m[34m  ->[m[1m Disabling key BC1FBE4D2826A0B51E47ED62E2539214C6C11350...[m
+[1m[34m  ->[m[1m Disabling key 63F395DE2D6398BBE458F281F2DBB4931985A992...[m
+[1m[34m  ->[m[1m Disabling key 8F76BEEA0289F9E1D3E229C05F946DED983D4366...[m
+[1m[34m  ->[m[1m Disabling key 4FCF887689C41B09506BE8D5F3E1D5C5D30DB0AD...[m
+[1m[34m  ->[m[1m Disabling key FB871F0131FEA4FB5A9192B4C8880A6406361833...[m
+[1m[34m  ->[m[1m Disabling key 81D7F8241DB38BC759C80FCE3A726C6170E80477...[m
+[1m[34m  ->[m[1m Disabling key 5E7585ADFF106BFFBBA319DC654B877A0864983E...[m
+[1m[34m  ->[m[1m Disabling key 50F33E2E5B0C3D900424ABE89BDCF497A4BBCC7F...[m
+[1m[34m  ->[m[1m Disabling key E7210A59715F6940CF9A4E36A001876699AD6E84...[m
+[1m[34m  ->[m[1m Disabling key 65EEFE022108E2B708CBFCF7F9E712E59AF5F22A...[m
+[1m[34m  ->[m[1m Disabling key F5A361A3A13554B85E57DDDAAF7EF7873CFD4BB6...[m
+[1m[34m  ->[m[1m Disabling key 40776A5221EF5AD468A4906D42A1DB15EC133BAD...[m
+[1m[34m  ->[m[1m Disabling key 8CF934E339CAD8ABF342E822E711306E3C4F88BC...[m
+[1m[34m  ->[m[1m Disabling key 5696C003B0854206450C8E5BE613C09CB4440678...[m
+[1m[34m  ->[m[1m Disabling key 5A2257D19FF7E1E0E415968CE62F853100F0D0F0...[m
+[1m[34m  ->[m[1m Disabling key 9515D8A8EAB88E49BB65EDBCE6B456CAF15447D5...[m
+[1m[34m  ->[m[1m Disabling key 4A8B17E20B88ACA61860009B5CED81B7C2E5C0D2...[m
+[1m[34m  ->[m[1m Disabling key 0B20CA1931F5DA3A70D0F8D2EA6836E1AB441196...[m
+[1m[34m  ->[m[1m Disabling key 34C5D94FE7E7913E86DC427E7FB1A3800C84C0A5...[m
+[1m[34m  ->[m[1m Disabling key 39F880E50E49A4D11341E8F939E4F17F295AFBF4...[m
+[1m[34m  ->[m[1m Disabling key 66BD74A036D522F51DD70A3C7F2A16726521E06D...[m
+[1m[34m  ->[m[1m Disabling key 07DFD3A0BC213FA12EDC217559B3122E2FA915EC...[m
+[1m[34m  ->[m[1m Disabling key 44D4A033AC140143927397D47EFD567D4C7EA887...[m
+[1m[34m  ->[m[1m Disabling key 27FFC4769E19F096D41D9265A04F9397CDFD6BB0...[m
+[1m[34m  ->[m[1m Disabling key 8840BD07FC24CB7CE394A07CCF7037A4F27FB7DA...[m
+[1m[32m==>[m[1m Updating trust database...[m
+Before Link Up
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DORMANT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Connected to 2c:c5:d3:0b:0a:28 (on wlp2s0)
+	SSID: The Clubhouse WiFi
+	freq: 2462
+	RX: 1626059 bytes (4752 packets)
+	TX: 1321 bytes (12 packets)
+	signal: -54 dBm
+	tx bitrate: 72.2 MBit/s MCS 7 short GI
+
+	bss flags:	short-preamble short-slot-time
+	dtim period:	1
+	beacon int:	100
+After Link Up
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DORMANT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Connected to 2c:c5:d3:0b:0a:28 (on wlp2s0)
+	SSID: The Clubhouse WiFi
+	freq: 2462
+	RX: 1626059 bytes (4752 packets)
+	TX: 1321 bytes (12 packets)
+	signal: -54 dBm
+	tx bitrate: 72.2 MBit/s MCS 7 short GI
+
+	bss flags:	short-preamble short-slot-time
+	dtim period:	1
+	beacon int:	100
+:: Synchronizing package databases...
+ core is up to date
+ extra is up to date
+ community is up to date
+resolving dependencies...
+looking for conflicting packages...
+
+Packages (8) devtools-20180531-4  dosfstools-4.1-2  git-2.20.1-1  libisoburn-1.5.0-2  lynx-2.8.9-2  make-4.2.1-3  patch-2.7.6-7  squashfs-tools-4.3-8
+
+Total Installed Size:  45.53 MiB
+Net Upgrade Size:       0.00 MiB
+
+checking keyring...
+checking package integrity...
+loading package files...
+checking for file conflicts...
+checking available disk space...
+:: Processing package changes...
+reinstalling make...
+reinstalling squashfs-tools...
+reinstalling libisoburn...
+reinstalling dosfstools...
+reinstalling patch...
+reinstalling lynx...
+reinstalling git...
+reinstalling devtools...
+:: Running post-transaction hooks...
+(1/4) Reloading system manager configuration...
+(2/4) Creating system user accounts...
+(3/4) Arming ConditionNeedsUpdate...
+(4/4) Updating the info directory file...
+Before Link Down
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DORMANT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Connected to 2c:c5:d3:0b:0a:28 (on wlp2s0)
+	SSID: The Clubhouse WiFi
+	freq: 2462
+	RX: 3155295 bytes (8663 packets)
+	TX: 3058 bytes (25 packets)
+	signal: -56 dBm
+	tx bitrate: 72.2 MBit/s MCS 7 short GI
+
+	bss flags:	short-preamble short-slot-time
+	dtim period:	1
+	beacon int:	100
+After Link Down
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST> mtu 1500 qdisc mq state DOWN mode DORMANT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Not connected.
+interface:
+
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST> mtu 1500 qdisc mq state DOWN mode DEFAULT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Not connected.
+Shutting all ports...
+Using ssid: 'The Clubhouse WiFi'
+Using psk: 'chwifi2015'
+
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST> mtu 1500 qdisc mq state DOWN mode DEFAULT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Not connected.
+Successfully initialized wpa_supplicant
+
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DORMANT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Connected to 2c:c5:d3:0b:0a:28 (on wlp2s0)
+	SSID: The Clubhouse WiFi
+	freq: 2462
+	RX: 150428 bytes (498 packets)
+	TX: 1111 bytes (9 packets)
+	signal: -56 dBm
+	tx bitrate: 72.2 MBit/s MCS 7 short GI
+
+	bss flags:	short-preamble short-slot-time
+	dtim period:	1
+	beacon int:	100
+
+ip lease
+Before Link Up
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DORMANT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Connected to 2c:c5:d3:0b:0a:28 (on wlp2s0)
+	SSID: The Clubhouse WiFi
+	freq: 2462
+	RX: 426805 bytes (1282 packets)
+	TX: 1251 bytes (11 packets)
+	signal: -58 dBm
+	tx bitrate: 72.2 MBit/s MCS 7 short GI
+
+	bss flags:	short-preamble short-slot-time
+	dtim period:	1
+	beacon int:	100
+After Link Up
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DORMANT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Connected to 2c:c5:d3:0b:0a:28 (on wlp2s0)
+	SSID: The Clubhouse WiFi
+	freq: 2462
+	RX: 427324 bytes (1285 packets)
+	TX: 1251 bytes (11 packets)
+	signal: -56 dBm
+	tx bitrate: 72.2 MBit/s MCS 7 short GI
+
+	bss flags:	short-preamble short-slot-time
+	dtim period:	1
+	beacon int:	100
+Before Link Down
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DORMANT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Connected to 2c:c5:d3:0b:0a:28 (on wlp2s0)
+	SSID: The Clubhouse WiFi
+	freq: 2462
+	RX: 428640 bytes (1296 packets)
+	TX: 1251 bytes (11 packets)
+	signal: -56 dBm
+	tx bitrate: 72.2 MBit/s MCS 7 short GI
+
+	bss flags:	short-preamble short-slot-time
+	dtim period:	1
+	beacon int:	100
+After Link Down
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST> mtu 1500 qdisc mq state DOWN mode DORMANT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Not connected.
+ARCH ISO ->>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Installing Scripts
+interface:
+
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST> mtu 1500 qdisc mq state DOWN mode DEFAULT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Not connected.
+Shutting all ports...
+Using ssid: 'The Clubhouse WiFi'
+Using psk: 'chwifi2015'
+
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST> mtu 1500 qdisc mq state DOWN mode DEFAULT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Not connected.
+Successfully initialized wpa_supplicant
+
+
+ip lease
+Before Link Up
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DORMANT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Connected to 2c:c5:d3:0b:0a:28 (on wlp2s0)
+	SSID: The Clubhouse WiFi
+	freq: 2462
+	RX: 892011 bytes (2260 packets)
+	TX: 1251 bytes (11 packets)
+	signal: -56 dBm
+	tx bitrate: 72.2 MBit/s MCS 7 short GI
+
+	bss flags:	short-preamble short-slot-time
+	dtim period:	1
+	beacon int:	100
+After Link Up
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DORMANT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Connected to 2c:c5:d3:0b:0a:28 (on wlp2s0)
+	SSID: The Clubhouse WiFi
+	freq: 2462
+	RX: 904370 bytes (2286 packets)
+	TX: 1251 bytes (11 packets)
+	signal: -58 dBm
+	tx bitrate: 72.2 MBit/s MCS 7 short GI
+
+	bss flags:	short-preamble short-slot-time
+	dtim period:	1
+	beacon int:	100
+Before Link Down
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DORMANT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Connected to 2c:c5:d3:0b:0a:28 (on wlp2s0)
+	SSID: The Clubhouse WiFi
+	freq: 2462
+	RX: 1871538 bytes (3906 packets)
+	TX: 25128 bytes (236 packets)
+	signal: -56 dBm
+	tx bitrate: 72.2 MBit/s MCS 7 short GI
+
+	bss flags:	short-preamble short-slot-time
+	dtim period:	1
+	beacon int:	100
+After Link Down
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST> mtu 1500 qdisc mq state DOWN mode DORMANT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Not connected.
+interface:
+
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: wlp2s0: <BROADCAST,MULTICAST> mtu 1500 qdisc mq state DOWN mode DORMANT group default qlen 1000
+    link/ether ac:e0:10:df:06:b3 brd ff:ff:ff:ff:ff:ff
+Not connected.
