@@ -11,6 +11,7 @@ apt-get update
 apt-get install mongodb-org
 pip install pymongo
 mongo 127.0.0.1:27017/historyDocumentation  < /etc/shell/setup.historyDocumentation
+mongo 127.0.0.1:27017/trading  < /etc/shell/setup.trading
 mkdir -p /data/db
 #pip install Jinja2
 pip install Flask 

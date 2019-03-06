@@ -140,7 +140,6 @@ def writeCommit():
 			c_id=commits.insert_one(c).inserted_id
 		else:
 			jsonCommitObject={}
-			allCommits=commits.find().sort('date',pymongo.DESCENDING)
 			mostRecentCommit=allCommits[1]['name'] if allCommits[0]['name'] == 'error' else allCommits[0]['name']
 			jsonCommitObject['name']=mostRecentCommit
 			return json.dumps(jsonCommitObject)
