@@ -11,3 +11,5 @@ if [ $? -ne '0' ];
 then
 	mongod --fork --logpath /var/log/mongodb.log
 fi
+
+python /opt/flask/intervalUpdate.py
