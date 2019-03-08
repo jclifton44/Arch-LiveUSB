@@ -8,8 +8,9 @@ curl $mongoDBKey | apt-key add
 echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
 apt-get update
 #dpkg -i mongodb-org-server_${mongoDBVersion}_amd64.deb
-apt-get install mongodb-org
+apt-get install mongodb-org python-dev
 pip install pymongo
+pip install matplotlib
 mongo 127.0.0.1:27017/historyDocumentation  < /etc/shell/setup.historyDocumentation
 mongo 127.0.0.1:27017/trading  < /etc/shell/setup.trading
 mkdir -p /data/db
