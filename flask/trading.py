@@ -156,9 +156,7 @@ class tradingClass():
 		
 	def getBTC(self):
 		#will obtain BTC balance and USD balance and return the one with greater value
-		orderType={}
-		orderType['status'] = 'all'	
-		r = requests.get('https://api.pro.coinbase.com/accounts', json=orderType, auth=self.auth)
+		r = requests.get('https://api.pro.coinbase.com/accounts', auth=self.auth)
 		
 		accounts = r.json()
 		balances = {}
@@ -177,9 +175,13 @@ class tradingClass():
 		return r.json()
 	
 			
-
+	def updateOrders(self):
+		orderStatus = {}
+		orderStatus['status'] = 'all'
+		r = requests.get('https://api.pro.coinbase.com/orders', json=orderStatus, auth=self.auth)
+		return r.json()
+	
 	def BTCtoUSD(self, isMakerTrade):
-
 		client=MongoClient()
 		db=client.trading
 		submittedOrders=db.submittedOrders
@@ -194,7 +196,7 @@ class tradingClass():
 			difference = float(orderBook['asks'][index + 1][0]) - float(orderBook['asks'][index][0])
 			if difference >= float(.02):
 				p = ( float( orderBook['asks'][index][0] ) + float( orderBook['asks'][index + 1][0] ) ) / 2
-				p = p / 2
+				p = p * 2
 				break
 		if p == -1:
 			return -1
@@ -209,13 +211,17 @@ class tradingClass():
 			order['post_only'] = True
 			order['price'] = round(p, 2)
 		
+		print(str(order))
 		r = requests.post('https://api.pro.coinbase.com/orders', json=order, auth=self.auth)
-		orderId = r.json()['id']
 		print(str(r.json()))
+		orderId = r.json()['id']
+		print("ORDER ID: " + orderId)
 		time.sleep(2)
-		processedOrder
+		processedOrder=""
+		print(self.updateOrders())
 		for o in self.updateOrders():
-			if o['id'] == order_id:
+			print(str(o))
+			if o['id'] == orderId:
 				processedOrder = o
 				break
 			
@@ -223,7 +229,7 @@ class tradingClass():
 			#order through
 			orderDetails = {}
 			orderDetails['time'] = time.time()
-			orderDetails['remote'] = proessedOrder
+			orderDetails['remote'] = processedOrder
 			orderDetails['minutesTillCancel'] = 5
 			submittedOrders.insert_one(orderDetails)
 			
@@ -284,9 +290,9 @@ class tradingClass():
 		orderId = r.json()['id']
 		print(str(r.json()))
 		time.sleep(2)
-		processedOrder
+		processedOrder=""
 		for o in self.updateOrders():
-			if o['id'] == order_id:
+			if o['id'] == orderId:
 				processedOrder = o
 				break
 			
@@ -378,7 +384,7 @@ class tradingClass():
 		responsePrice['time'] = time.time()
 		pricesKeepLimit = 60 * 300 * 1000 # five minutes X 1000
 		pricesKeepThreshold = time.time() - pricesKeepLimit
-		prices.delete_many( { "time": { "$lt": pricesKeepThreshold } } )
+		prices.delete_mana( { "time": { "$lt": pricesKeepThreshold } } )
 		prices.insert_one(responsePrice)
 
 	def genSignal(self):
