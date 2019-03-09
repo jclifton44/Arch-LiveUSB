@@ -378,7 +378,7 @@ class tradingClass():
 		responsePrice['time'] = time.time()
 		pricesKeepLimit = 60 * 300 * 1000 # five minutes X 1000
 		pricesKeepThreshold = time.time() - pricesKeepLimit
-		prices.delete_mana( { "time": { "$lt": pricesKeepThreshold } } )
+		prices.delete_many( { "time": { "$lt": pricesKeepThreshold } } )
 		prices.insert_one(responsePrice)
 
 	def genSignal(self):
