@@ -1,2 +1,6 @@
 db.createCollection("prices")
+db.createCollection("submittedOrders")
+
+
+db.prices.remove({})
 db.prices.remove({})
