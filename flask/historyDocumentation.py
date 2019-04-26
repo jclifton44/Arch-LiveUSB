@@ -42,6 +42,7 @@ def pageVisit(commit):
 	words=db.words
 	formData=request.form
 	print(formData)
+	print "formData^"
 	#print formData['site']
 	responsePage="<h1>"+commit+": </h1><br><a href='"+uri+"history/writeCommit/'> Back to commits</a> <br>Sites: <br>"
 	if request.method == "GET":
@@ -62,17 +63,22 @@ def pageVisit(commit):
 				return "invalid request"
 			else:
 				definitionUrl=urlparse(formData['site'])
+				if formData.has_key('q'):
+					definitionUrl.q = formData['q']
+				else:
+					definitionUrl.q = definitionUrl.query[2:]
 				print "valid"
 				print definitionUrl.path
 				print definitionUrl.netloc
-				print definitionUrl
+				print definitionUrl.q
 				if definitionUrl.path == "/search" and definitionUrl.netloc == "www.google.com":
 					print "search and google"
-					definitionRegex=re.compile(r"^q=[A-Za-z]*$")
+					definitionRegex=re.compile(r"^[A-Za-z]*$")
 					print definitionUrl.query
-					word=definitionUrl.query[2:]
-					if definitionRegex.match(definitionUrl.query):
+					word=definitionUrl.q
+					if definitionRegex.match(definitionUrl.q):
 						definitionRequest=requests.get("https://dictionaryapi.com/api/v3/references/collegiate/json/" + word + "?key=" + dictionaryAPIKey)
+						print "finding definition for " + word
 						definition=json.loads(definitionRequest.content)
 						if 'meta' in definition[0]:
 							#print definition[0]['shortdef']
@@ -81,7 +87,8 @@ def pageVisit(commit):
 								"date":datetime.datetime.utcnow()
 							}
 							w_id=words.insert_one(w).inserted_id
-						
+					else:
+						print "deinition regex mismatch"	
 							
 				
 
