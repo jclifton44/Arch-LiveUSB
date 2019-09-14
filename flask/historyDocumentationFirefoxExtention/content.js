@@ -27,7 +27,13 @@ latestCommit.onreadystatechange = function() {
       }
     }
     sendSite.send("site="+window.location.toString())
+  } else {
+    alert(latestCommit.response
+
   }
+
+	
+
 }
 latestCommit.send()
 
