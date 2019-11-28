@@ -111,6 +111,7 @@ def pageVisit(commit):
 			jsonSiteObject['sites'] = []
 			for siteVisit in visitedSitesDuringCommit:
 				jsonSiteObject['sites'].append(siteVisit['site'])
+			print json.dumps(jsonSiteObject)
 			return json.dumps(jsonSiteObject)
 			
 			 
@@ -128,15 +129,20 @@ def writeCommit():
 	commits=db.commits 
 	formData=request.form
 	print(formData)
-	responsePage="<h1>Commits:</h1><br>"	
+	responsePage=""
 	if request.method == "GET":
 		allCommits=commits.find().sort('date',pymongo.DESCENDING)
+		responsePage="<h1>Commits:</h1><br>"	
+		print("Number of Commits:")
+		print(allCommits.count())
 		for c in allCommits:
 			responsePage+="<a href='"+uri+"history/pageVisit/"+c['name']+"/'>"+c['name']+"</a><br>"
 	if request.method == "POST":	
 		print "POST"
 		if formData.has_key('commit'):
 			valid=re.compile(r"^\w*$")
+			print("Form Data")
+			print(formData['commit'])
 			if valid.match(formData['commit']) is None:
 				return "invalid request"
 			c = { "date": datetime.datetime.utcnow(),
@@ -148,9 +154,27 @@ def writeCommit():
 		else:
 			jsonCommitObject={}
 			allCommits=commits.find().sort('date',pymongo.DESCENDING)
-			mostRecentCommit=allCommits[1]['name'] if allCommits[0]['name'] == 'error' else allCommits[0]['name']
+			print("finding most recent commit")	
+			print("Count:")
+			print(allCommits.count())
+			mostRecentCommit="-1"
+			if allCommits.count() != 0:
+				mostRecentCommit=allCommits[1]['name'] if allCommits[0]['name'] == 'error' else allCommits[0]['name']
+			else:
+				mostRecentCommit="initTest"
+				if commits.count_documents({"name":mostRecentCommit}) == 0:
+					c={ "date": datetime.datetime.utcnow(),
+					"name":mostRecentCommit}
+					c_id=commits.insert_one(c).inserted_id
+			
+
 			jsonCommitObject['name']=mostRecentCommit
-			return json.dumps(jsonCommitObject)
+
+			print "JSON OBJECT:"
+			print json.dumps(jsonCommitObject)	
+			responsePage=json.dumps(jsonCommitObject)
+			#responsePage="This is not json"
+			#return json.dumps(jsonCommitObject)
 			
 		
 	return responsePage
