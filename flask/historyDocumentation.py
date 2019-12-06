@@ -40,6 +40,9 @@ def pageVisit(commit):
 	visitedSites=db.visitedSites	
 	commits=db.commits
 	words=db.words
+	#fd1=request.form[0]
+	print "fd1"
+	print request.form
 	formData=request.form
 	print(formData)
 	print "formData^"
@@ -54,6 +57,9 @@ def pageVisit(commit):
 			responsePage+=pageVisit['site']+"<br>"
 		
 	if request.method == "POST":	
+		print "Post"
+		print formData
+		print formData.has_key('site')
 		if formData.has_key('site'):
 			valid=re.compile(r"^\w*$")
                 	if valid.match(commit) is None:
@@ -63,19 +69,26 @@ def pageVisit(commit):
 				return "invalid request"
 			else:
 				definitionUrl=urlparse(formData['site'])
+				
 				if formData.has_key('q'):
 					definitionUrl.q = formData['q']
 				else:
 					definitionUrl.q = definitionUrl.query[2:]
+					endIndex=definitionUrl.q.find('&')
+					definitionUrl.q = definitionUrl.q[0:endIndex]
+				
 				print "valid"
 				print definitionUrl.path
 				print definitionUrl.netloc
 				print definitionUrl.q
+				print "search test"
+				print definitionUrl.path
 				if definitionUrl.path == "/search" and definitionUrl.netloc == "www.google.com":
 					print "search and google"
 					definitionRegex=re.compile(r"^[A-Za-z]*$")
 					print definitionUrl.query
 					word=definitionUrl.q
+					print definitionUrl.q
 					if definitionRegex.match(definitionUrl.q):
 						definitionRequest=requests.get("https://dictionaryapi.com/api/v3/references/collegiate/json/" + word + "?key=" + dictionaryAPIKey)
 						print "finding definition for " + word
@@ -111,6 +124,7 @@ def pageVisit(commit):
 			jsonSiteObject['sites'] = []
 			for siteVisit in visitedSitesDuringCommit:
 				jsonSiteObject['sites'].append(siteVisit['site'])
+			print json.dumps(jsonSiteObject)
 			return json.dumps(jsonSiteObject)
 			
 			 
@@ -128,15 +142,20 @@ def writeCommit():
 	commits=db.commits 
 	formData=request.form
 	print(formData)
-	responsePage="<h1>Commits:</h1><br>"	
+	responsePage=""
 	if request.method == "GET":
 		allCommits=commits.find().sort('date',pymongo.DESCENDING)
+		responsePage="<h1>Commits:</h1><br>"	
+		print("Number of Commits:")
+		print(allCommits.count())
 		for c in allCommits:
 			responsePage+="<a href='"+uri+"history/pageVisit/"+c['name']+"/'>"+c['name']+"</a><br>"
 	if request.method == "POST":	
 		print "POST"
 		if formData.has_key('commit'):
 			valid=re.compile(r"^\w*$")
+			print("Form Data")
+			print(formData['commit'])
 			if valid.match(formData['commit']) is None:
 				return "invalid request"
 			c = { "date": datetime.datetime.utcnow(),
@@ -148,13 +167,36 @@ def writeCommit():
 		else:
 			jsonCommitObject={}
 			allCommits=commits.find().sort('date',pymongo.DESCENDING)
-			mostRecentCommit=allCommits[1]['name'] if allCommits[0]['name'] == 'error' else allCommits[0]['name']
+			print("finding most recent commit")	
+			print("Count:")
+			print(allCommits.count())
+			mostRecentCommit="-1"
+			if allCommits.count() != 0:
+				mostRecentCommit=allCommits[1]['name'] if allCommits[0]['name'] == 'error' else allCommits[0]['name']
+			else:
+				mostRecentCommit="initTest"
+				if commits.count_documents({"name":mostRecentCommit}) == 0:
+					c={ "date": datetime.datetime.utcnow(),
+					"name":mostRecentCommit}
+					c_id=commits.insert_one(c).inserted_id
+			
+
 			jsonCommitObject['name']=mostRecentCommit
+
+			print "JSON OBJECT:"
+			print json.dumps(jsonCommitObject)	
+			responsePage=json.dumps(jsonCommitObject)
+
+			#responsePage="This is not json"
 			return json.dumps(jsonCommitObject)
 			
 		
 	return responsePage
 
 
-
+@app.after_request
+def add_headers(response):
+	response.headers.add('Access-Control-Allow-Origin','*')
+	response.headers.add('Access-Control-Allow-Headers','Content-Type,Authorization')
+	return response
 
