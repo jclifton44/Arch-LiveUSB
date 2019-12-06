@@ -40,6 +40,9 @@ def pageVisit(commit):
 	visitedSites=db.visitedSites	
 	commits=db.commits
 	words=db.words
+	#fd1=request.form[0]
+	print "fd1"
+	print request.form
 	formData=request.form
 	print(formData)
 	print "formData^"
@@ -54,6 +57,9 @@ def pageVisit(commit):
 			responsePage+=pageVisit['site']+"<br>"
 		
 	if request.method == "POST":	
+		print "Post"
+		print formData
+		print formData.has_key('site')
 		if formData.has_key('site'):
 			valid=re.compile(r"^\w*$")
                 	if valid.match(commit) is None:
@@ -63,19 +69,26 @@ def pageVisit(commit):
 				return "invalid request"
 			else:
 				definitionUrl=urlparse(formData['site'])
+				
 				if formData.has_key('q'):
 					definitionUrl.q = formData['q']
 				else:
 					definitionUrl.q = definitionUrl.query[2:]
+					endIndex=definitionUrl.q.find('&')
+					definitionUrl.q = definitionUrl.q[0:endIndex]
+				
 				print "valid"
 				print definitionUrl.path
 				print definitionUrl.netloc
 				print definitionUrl.q
+				print "search test"
+				print definitionUrl.path
 				if definitionUrl.path == "/search" and definitionUrl.netloc == "www.google.com":
 					print "search and google"
 					definitionRegex=re.compile(r"^[A-Za-z]*$")
 					print definitionUrl.query
 					word=definitionUrl.q
+					print definitionUrl.q
 					if definitionRegex.match(definitionUrl.q):
 						definitionRequest=requests.get("https://dictionaryapi.com/api/v3/references/collegiate/json/" + word + "?key=" + dictionaryAPIKey)
 						print "finding definition for " + word
