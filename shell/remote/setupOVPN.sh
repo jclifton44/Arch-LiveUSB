@@ -87,8 +87,9 @@ else
 	echo "*nat" >> /etc/ufw/before.rules
 	echo ":POSTROUTING ACCEPT [0:0]" >> /etc/ufw/before.rules
 	echo "# Allow traffic from OpenVPN client to $DEVICE_INTERFACE" >> /etc/ufw/before.rules
-	echo "-A POSTROUTING -s 10.7.0.0/8 -o $DEFAULT_INTERFACE -j MASQUERADE" >> /etc/ufw/before.rules
+	echo "-A POSTROUTING -s 10.7.0.0/24 -o $DEFAULT_INTERFACE -j MASQUERADE" >> /etc/ufw/before.rules
 	echo "# END OPENVPN RULES" >> /etc/ufw/before.rules
+	echo "COMMIT" >> /etc/ufw/before.rules
 fi
 sed -i "s/DEFAULT_FORWARD_POLICY=\"DROP\"/DEFAULT_FORWARD_POLICY=\"ACCEPT\"/" /etc/default/ufw
 ufw allow 1194/udp
