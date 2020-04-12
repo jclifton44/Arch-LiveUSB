@@ -75,6 +75,13 @@ else
 	#sed -i "${lineNumber}i*nat" /etc/ufw/before.rules
 	#sed -i "${lineNumber}i# NAT table rules" /etc/ufw/before.rules
 	#sed -i "${lineNumber}i# START OPENVPN RULES" /etc/ufw/before.rules
+	#masquerade for IP TABLES
+	#if ufw does not work try:
+	#Note: there is already a UFW RULE FOR MASQUERADING
+	# Masquerade all traffic from VPN clients -- done in the nat table 
+	#\/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ \/ 
+    	#iptables -t nat -I POSTROUTING -o eth0 \
+        #  -s 10.8.0.0/24 -j MASQUERADE
 	echo "# START OPENVPN RULES" >> /etc/ufw/before.rules
 	echo "# NAT table rules" >> /etc/ufw/before.rules
 	echo "*nat" >> /etc/ufw/before.rules
