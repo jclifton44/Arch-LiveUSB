@@ -14,4 +14,8 @@ this will allow you to execute scripts in the power shell. To change this back a
 set-executionpolicy restricted
 ```
 
+You may need to change the mirror on line 8 if at some point in time that url does not resolve.
+
+
+
 
