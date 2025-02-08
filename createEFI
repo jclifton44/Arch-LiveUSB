@@ -1,6 +1,0 @@
-rem utility to create EFI partition
-create partition efi size=100
-format quick fs=fat32
-assign letter=P
-rem run bcdboot C:\windows /s P: to move files to boot directory
-
