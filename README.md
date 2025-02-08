@@ -1,5 +1,5 @@
 # Arch Linux Install script
-
+## Running Windows machine to get a LiveUSB
 There are many ways to get your arch. The first one method of getting arch onto your machine is going to be through a pen drive. 
 Simply insert your pen drive and run:
 ```
