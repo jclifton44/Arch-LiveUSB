@@ -1,5 +1,0 @@
-set root=(hd0, gpt1)
-echo "Loading Linux..."
-linux /vmlinuz-linux root=/dev/sda5
-echo "Loading initial memory into ram"
-initrd /initramfs-linux.img

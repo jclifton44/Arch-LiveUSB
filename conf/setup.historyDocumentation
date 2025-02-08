@@ -1,5 +1,0 @@
-db.createCollection("commits")
-db.createCollection("visitedSites")
-db.createCollection("words")
-db.commits.remove({})
-db.visitedSites.remove({})

@@ -1,9 +1,0 @@
-There should be a .csr and .key file in your home folder.
-The .key is the private key for a server. The .csr is a certificate signing request.
-Send your .csr along with any requested info to your choice of Certificate Authority (CA)
-
-Install the .key and the .crt they return in the following locations:
-/etc/ssl/private/key.key
-/etc/ssl/certs/crt.crt
-
-Enjoy your SSL
